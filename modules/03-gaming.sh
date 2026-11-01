@@ -36,7 +36,7 @@ GAMING_PKGS=(
 )
 
 pacman_install steam lutris
-aur_install proton-ge-custom wine-ge-custom heroic-games-launcher
+aur_install proton-ge-custom wine-ge heroic-games-launcher
 
 # ─── Gamescope session (Steam Deck style) ──────────────────────
 if [[ "$GAMESCOPE_SESSION" == true ]]; then
