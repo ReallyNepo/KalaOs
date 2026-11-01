@@ -52,7 +52,6 @@ case "$GPU_VENDOR" in
             mesa
             vulkan-radeon
             libva-mesa-driver
-            mesa-vdpau
             rocm-opencl-runtime
             radeontop
         )
@@ -80,19 +79,12 @@ esac
 # Firmware común
 DRIVER_PKGS+=(linux-firmware linux-firmware-qlogic linux-firmware-whence sof-firmware)
 
-# Vulkan layers y tools gaming
-if [[ "$ENABLE_VULKAN_LAYERS" == true ]]; then
-    DRIVER_PKGS+=(
-        vulkan-tools
-        vulkan-icd-loader
-        lib32-vulkan-icd-loader
-        vkbasalt
-        goverlay
-        mangohud
-        lib32-mangohud
-        gamescope
-    )
-fi
+# Vulkan base (ICD loader) - available in extra
+DRIVER_PKGS+=(
+    vulkan-tools
+    vulkan-icd-loader
+    lib32-vulkan-icd-loader
+)
 
 pacman_install "${DRIVER_PKGS[@]}"
 
