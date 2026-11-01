@@ -73,7 +73,7 @@ ethtool=1
 inhibit_screensaver=1
 EOF" "Configure gamemode"
 
-enable_service gamemoded
+# gamemoded is a user service (dbus-activated), not a system service
 
 # ─── MangoHud config global ────────────────────────────────────
 run_cmd "mkdir -p /etc/MangoHud" "MangoHud config dir"
