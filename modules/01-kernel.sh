@@ -55,10 +55,10 @@ fi
 CMDLINE_STR="${KERNEL_PARAMS[*]}"
 
 # systemd-boot
-if [[ "$BOOTLOADER" == "systemd-boot" ]]; then
-    BOOT_ENTRY="/boot/loader/entries/$(ls /boot/loader/entries/ | grep -E 'cachyos|arch' | head -1)"
-    if [[ -f "$BOOT_ENTRY" ]]; then
-        run_cmd "sed -i 's/^options .*/options ${CMDLINE_STR}/' '$BOOT_ENTRY'" "Update kernel cmdline in $BOOT_ENTRY"
+if [[ "$BOOTLOADER" == "systemd-boot" && -d /boot/loader/entries ]]; then
+    BOOT_ENTRY=$(ls /boot/loader/entries/ 2>/dev/null | grep -E 'cachyos|arch' | head -1)
+    if [[ -n "$BOOT_ENTRY" && -f "/boot/loader/entries/$BOOT_ENTRY" ]]; then
+        run_cmd "sed -i 's/^options .*/options ${CMDLINE_STR}/' '/boot/loader/entries/$BOOT_ENTRY'" "Update kernel cmdline in $BOOT_ENTRY"
     fi
 fi
 
@@ -75,11 +75,12 @@ ALL_kver="/boot/vmlinuz-${KERNEL_VARIANT}"
 PRESETS=('default' 'fallback')
 default_image="/boot/initramfs-${KERNEL_VARIANT}.img"
 fallback_image="/boot/initramfs-${KERNEL_VARIANT}-fallback.img"
-default_options="-S autodetect -S kms -S block -S filesystems -S keyboard -S fsck"
-fallback_options="-S autodetect -S kms -S block -S filesystems -S keyboard -S fsck"
-EOF" "Create KalaOS mkinitcpio preset"
+# Exclude ntfs-3g hook to avoid libntfs-3g.so version mismatch during kernel upgrades
+default_options="-S autodetect -S kms -S block -S filesystems -S keyboard -S fsck -R ntfs-3g"
+fallback_options="-S autodetect -S kms -S block -S filesystems -S keyboard -S fsck -R ntfs-3g"
+EOF" "Create KalaOS mkinitcpio preset (exclude ntfs-3g hook)"
 
-# Regenerar initramfs
+# Regenerar initramfs (will run cleanly after all packages settled)
 run_cmd "mkinitcpio -p kalaos" "Regenerate initramfs"
 
 # ─── Kernel modules auto-load ──────────────────────────────────
