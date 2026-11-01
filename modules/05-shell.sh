@@ -113,7 +113,9 @@ log_step "Configuring fish with autocomplete & correction"
 
 run_cmd "mkdir -p \$HOME/.config/fish/{functions,completions,conf.d}" "Fish config dirs"
 
-cat > ${KALAOS_REPO:-$HOME/kalaos}/dotfiles/fish/config.fish <<'FISH_EOF'
+run_cmd "mkdir -p $DOTFILES_DIR/fish" "Fish dotfiles dir"
+
+cat > $DOTFILES_DIR/fish/config.fish <<'FISH_EOF'
 # KalaOS Fish Config - Autocomplete, correction, IDE-like experience
 
 # ─── Starship prompt ──────────────────────────────────────────
