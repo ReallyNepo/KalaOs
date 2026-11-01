@@ -21,7 +21,7 @@ pacman_install "${THEMING_PKGS[@]}"
 # ─── Colores base KalaOS (morado/rojo) ─────────────────────────
 # Paleta base morado/rojo para cuando no hay wallpaper
 run_cmd "mkdir -p ${SCRIPT_DIR:-$HOME/kalaos}/assets/theme" "Assets theme dir"
-cat > ${KALAOS_REPO:-$HOME/kalaos}/assets/theme/kalaos-palette.json <<'PALETTE_EOF'
+cat > ${SCRIPT_DIR:-$HOME/kalaos}/assets/theme/kalaos-palette.json <<'PALETTE_EOF'
 {
   "name": "KalaOS Purple-Red",
   "background": "#1a0d1f",
@@ -56,7 +56,7 @@ PALETTE_EOF
 
 # ─── Generador de temas desde wallpaper ────────────────────────
 run_cmd "mkdir -p ${SCRIPT_DIR:-$HOME/kalaos}/modules" "Modules dir"
-cat > ${KALAOS_REPO:-$HOME/kalaos}/modules/generate-theme.sh <<'GEN_THEME_EOF'
+cat > ${SCRIPT_DIR:-$HOME/kalaos}/modules/generate-theme.sh <<'GEN_THEME_EOF'
 #!/usr/bin/env bash
 # Genera temas para todos los componentes desde un wallpaper
 # Uso: generate-theme.sh /ruta/a/wallpaper.jpg
@@ -306,11 +306,11 @@ fi
 echo "Tema aplicado: $ACCENT_PURPLE / $ACCENT_RED sobre $BG"
 GEN_THEME_EOF
 
-chmod +x ${KALAOS_REPO:-$HOME/kalaos}/modules/generate-theme.sh
+chmod +x ${SCRIPT_DIR:-$HOME/kalaos}/modules/generate-theme.sh
 
 # ─── Script kala wallpaper (integración CLI) ───────────────────
 run_cmd "mkdir -p ${SCRIPT_DIR:-$HOME/kalaos}/dotfiles/kala" "Kala dotfiles dir"
-cat > ${KALAOS_REPO:-$HOME/kalaos}/dotfiles/kala/kala-wallpaper <<'KALA_WALL_EOF'
+cat > ${SCRIPT_DIR:-$HOME/kalaos}/dotfiles/kala/kala-wallpaper <<'KALA_WALL_EOF'
 #!/usr/bin/env fish
 # kala wallpaper - Setea wallpaper y regenera tema completo
 
@@ -328,7 +328,7 @@ function kala_wallpaper --description 'Set wallpaper and regenerate system theme
     end
 
     # Ejecutar generador de temas
-    ${KALAOS_REPO:-$HOME/kalaos}/modules/generate-theme.sh "$wallpaper"
+    ${SCRIPT_DIR:-$HOME/kalaos}/modules/generate-theme.sh "$wallpaper"
 
     # Recargar waybar
     pkill -USR2 waybar 2>/dev/null || true
@@ -341,9 +341,9 @@ function kala_wallpaper --description 'Set wallpaper and regenerate system theme
 end
 KALA_WALL_EOF
 
-chmod +x ${KALAOS_REPO:-$HOME/kalaos}/dotfiles/kala/kala-wallpaper
+chmod +x ${SCRIPT_DIR:-$HOME/kalaos}/dotfiles/kala/kala-wallpaper
 
 # ─── Aplicar tema base inicial ────────────────────────────────
-${KALAOS_REPO:-$HOME/kalaos}/modules/generate-theme.sh
+${SCRIPT_DIR:-$HOME/kalaos}/modules/generate-theme.sh
 
 log_ok "Theming module completed"
