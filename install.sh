@@ -76,7 +76,13 @@ pacman_remove() {
 aur_install() {
     local pkgs=("$@")
     [[ ${#pkgs[@]} -eq 0 ]] && return 0
-    run_cmd "yay -S --needed --noconfirm ${pkgs[*]}" "AUR installing: ${pkgs[*]}"
+    # Run yay as original user (not root) to avoid makepkg root error
+    local build_user="${SUDO_USER:-$USER}"
+    if [[ "$build_user" == "root" ]]; then
+        log_warn "Cannot determine non-root user for AUR build; skipping: ${pkgs[*]}"
+        return 0
+    fi
+    run_cmd "sudo -u $build_user yay -S --needed --noconfirm ${pkgs[*]}" "AUR installing: ${pkgs[*]}"
 }
 
 enable_service() {
