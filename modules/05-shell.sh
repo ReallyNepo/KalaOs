@@ -217,7 +217,7 @@ end
 FISH_EOF
 
 # ─── Fisher plugins ────────────────────────────────────────────
-cat > ${KALAOS_REPO:-$HOME/kalaos}/dotfiles/fish/fish_plugins <<'FISH_PLUGINS_EOF'
+cat > $DOTFILES_DIR/fish/fish_plugins <<'FISH_PLUGINS_EOF'
 # Fisher plugins for KalaOS
 jorgebucaran/fisher
 jorgebucaran/autopair.fish        # Auto-close brackets/quotes
