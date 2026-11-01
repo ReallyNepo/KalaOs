@@ -248,6 +248,7 @@ cat > $DOTFILES_DIR/swaync/config.json <<'SWAYNC_CONFIG_EOF'
 SWAYNC_CONFIG_EOF
 
 # ─── Servicios ─────────────────────────────────────────────────
-enable_service swaync
+# swaync is a user service (dbus-activated), not a system service
+# enable_service swaync
 
 log_ok "Bar module completed"

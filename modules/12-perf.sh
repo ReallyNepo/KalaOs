@@ -49,6 +49,7 @@ RemainAfterExit=yes
 WantedBy=multi-user.target
 EOF" "Create cpupower governor service"
 
+# Service file created above at lines 38-50
 enable_service cpupower-governor
 
 # ─── IRQ Balance (distribuir interrupciones) ──────────────────
