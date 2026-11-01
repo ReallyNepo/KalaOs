@@ -15,7 +15,7 @@ THEMING_PKGS=(
 )
 
 pacman_install "${THEMING_PKGS[@]}"
-aur_install aether-gtk
+aur_install aether-gtk-theme
 
 # ─── Colores base KalaOS (morado/rojo) ─────────────────────────
 # Paleta base morado/rojo para cuando no hay wallpaper
