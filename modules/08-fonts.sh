@@ -21,7 +21,7 @@ log_step "Setting up macOS San Francisco fonts"
 
 # SF Pro se instala via AUR (sf-pro-fonts) o descarga manual
 # Usamos AUR para automatizar
-aur_install sf-pro-fonts sf-mono-fonts
+aur_install ttf-san-francisco-pro ttf-san-francisco-mono
 
 # ─── Pixel font para logo/UI (KalaPixel) ───────────────────────
 log_step "Creating KalaPixel pixel font"
