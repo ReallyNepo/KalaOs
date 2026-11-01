@@ -25,18 +25,17 @@ run_cmd "pacman -Sy" "Sync package databases with chaotic-aur"
 
 log_step "Installing gaming stack"
 
-# ─── Steam + Proton-GE + Wine-GE ───────────────────────────────
+# ─── Steam + Proton-GE (includes Wine-GE) ────────────────────────
 GAMING_PKGS=(
     steam
-    proton-ge-custom          # AUR: GE-Proton latest
-    wine-ge                   # AUR: Wine-GE latest
+    proton-ge-custom          # AUR: GE-Proton latest (includes Wine-GE)
     lutris
     heroic-games-launcher     # AUR: Epic/GOG launcher
     bottles                   # Flatpak preferred, pero AUR existe
 )
 
 pacman_install steam lutris
-aur_install proton-ge-custom wine-ge heroic-games-launcher
+aur_install proton-ge-custom heroic-games-launcher
 
 # ─── Gamescope session (Steam Deck style) ──────────────────────
 if [[ "$GAMESCOPE_SESSION" == true ]]; then
