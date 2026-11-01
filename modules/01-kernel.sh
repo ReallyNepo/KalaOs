@@ -7,12 +7,15 @@ log_step "Configuring kernel: $KERNEL_VARIANT"
 case "$KERNEL_VARIANT" in
     cachyos-bore)
         KERNEL_PKGS=(linux-cachyos linux-cachyos-headers)
+        MKINITCPIO_KVER="linux-cachyos"
         ;;
     cachyos-eevdf)
         KERNEL_PKGS=(linux-cachyos-eevdf linux-cachyos-eevdf-headers)
+        MKINITCPIO_KVER="linux-cachyos-eevdf"
         ;;
     linux-zen)
         KERNEL_PKGS=(linux-zen linux-zen-headers)
+        MKINITCPIO_KVER="linux-zen"
         ;;
     *)
         log_error "Unknown kernel variant: $KERNEL_VARIANT"
@@ -71,10 +74,10 @@ fi
 # ─── mkinitcpio preset para CachyOS ────────────────────────────
 run_cmd "cat > /etc/mkinitcpio.d/kalaos.preset <<'EOF'
 # KalaOS mkinitcpio preset
-ALL_kver="/boot/vmlinuz-${KERNEL_VARIANT}"
+ALL_kver="/boot/vmlinuz-${MKINITCPIO_KVER}"
 PRESETS=('default' 'fallback')
-default_image="/boot/initramfs-${KERNEL_VARIANT}.img"
-fallback_image="/boot/initramfs-${KERNEL_VARIANT}-fallback.img"
+default_image="/boot/initramfs-${MKINITCPIO_KVER}.img"
+fallback_image="/boot/initramfs-${MKINITCPIO_KVER}-fallback.img"
 # Exclude ntfs-3g hook to avoid libntfs-3g.so version mismatch during kernel upgrades
 default_options="-S autodetect -S kms -S block -S filesystems -S keyboard -S fsck -R ntfs-3g"
 fallback_options="-S autodetect -S kms -S block -S filesystems -S keyboard -S fsck -R ntfs-3g"
