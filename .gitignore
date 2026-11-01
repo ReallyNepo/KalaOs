@@ -1,0 +1,42 @@
+# Build artifacts
+*.pkg.tar.zst
+*.pkg.tar.xz
+pkg/
+src/
+
+# Logs
+*.log
+install.log
+
+# Cache
+__pycache__/
+*.pyc
+.cache/
+.cache/
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary
+*.tmp
+*.temp
+/tmp/
+
+# Secrets (never commit)
+*.key
+*.pem
+*.crt
+.env
+.env.local
+
+# KalaOS specific
+kalaos-backup-*/
+*.backup

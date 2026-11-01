@@ -1,0 +1,21 @@
+# KalaOS Fonts Packages
+# Installed by module 08-fonts.sh
+
+# Nerd fonts
+ttf-jetbrains-mono-nerd
+ttf-firacode-nerd
+ttf-font-awesome
+noto-fonts-emoji
+
+# macOS San Francisco fonts (AUR)
+sf-pro-fonts
+sf-mono-fonts
+
+# Font management
+fontconfig
+font-manager
+
+# ─── Theming GUI (Aether) ──────────────────────────────────────
+# Installed by module 07-theming.sh
+aether-gtk        # AUR - GTK theme customizer GUI
+nwg-look          # GTK3/4 theme editor (repo)

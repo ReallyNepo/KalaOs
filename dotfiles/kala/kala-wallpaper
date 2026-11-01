@@ -1,0 +1,28 @@
+#!/usr/bin/env fish
+# kala wallpaper - Setea wallpaper y regenera tema completo
+
+function kala_wallpaper --description 'Set wallpaper and regenerate system theme'
+    set -l wallpaper $argv[1]
+
+    if test -z "$wallpaper"
+        echo "Uso: kala wallpaper <ruta-a-imagen>"
+        return 1
+    end
+
+    if not test -f "$wallpaper"
+        echo "Archivo no encontrado: $wallpaper"
+        return 1
+    end
+
+    # Ejecutar generador de temas
+    /home/jairo/kalaos/modules/generate-theme.sh "$wallpaper"
+
+    # Recargar waybar
+    pkill -USR2 waybar 2>/dev/null || true
+
+    # Recargar hyprland
+    hyprctl reload 2>/dev/null || true
+
+    # Notificar
+    notify-send "KalaOS Theme" "Wallpaper y tema actualizados" -i preferences-desktop-wallpaper
+end

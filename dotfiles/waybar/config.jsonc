@@ -1,0 +1,101 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 32,
+    "spacing": 4,
+    "modules-left": ["hyprland/workspaces", "hyprland/window"],
+    "modules-center": ["clock"],
+    "modules-right": ["pulseaudio", "network", "bluetooth", "battery", "tray", "power", "custom/kala"],
+
+    "hyprland/workspaces": {
+        "disable-scroll": true,
+        "all-outputs": true,
+        "format": "{icon}",
+        "format-icons": {
+            "1": "1", "2": "2", "3": "3", "4": "4", "5": "5",
+            "6": "6", "7": "7", "8": "8", "9": "9", "10": "10",
+            "active": "●", "inactive": "○", "urgent": "◎"
+        },
+        "on-click": "activate",
+        "on-scroll-up": "workspace e+1",
+        "on-scroll-down": "workspace e-1"
+    },
+
+    "hyprland/window": {
+        "format": "{}",
+        "max-length": 50,
+        "tooltip": true
+    },
+
+    "clock": {
+        "format": "{}",
+        "format-alt": "🐱 %H:%M",
+        "tooltip-format": "%A, %d %B %Y",
+        "interval": 1,
+        "on-click": "ghostty -e calcurse"
+    },
+
+    "pulseaudio": {
+        "format": "{volume}% {icon}",
+        "format-bluetooth": "{volume}% 🎧",
+        "format-muted": "🔇",
+        "format-icons": {
+            "headphone": "🎧",
+            "hands-free": "🎧",
+            "headset": "🎧",
+            "phone": "📱",
+            "portable": "🎧",
+            "car": "🚗",
+            "default": ["🔈", "🔉", "🔊"]
+        },
+        "on-click": "pavucontrol",
+        "on-scroll-up": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+",
+        "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
+    },
+
+    "network": {
+        "format": "{icon}",
+        "format-wifi": "📶 {signalStrength}%",
+        "format-ethernet": "🌐",
+        "format-disconnected": "❌",
+        "tooltip-format": "{ifname}: {ipaddr}",
+        "on-click": "nm-connection-editor"
+    },
+
+    "bluetooth": {
+        "format": "{icon}",
+        "format-on": "🔵",
+        "format-off": "⚫",
+        "format-connected": "🟢 {name}",
+        "on-click": "blueman-manager"
+    },
+
+    "battery": {
+        "format": "{capacity}% {icon}",
+        "format-charging": "⚡ {capacity}%",
+        "format-plugged": "🔌 {capacity}%",
+        "format-icons": ["🔋", "🔋", "🔋", "🔋", "🔋"],
+        "threshold": 20,
+        "on-click": "ghostty -e btop"
+    },
+
+    "tray": {
+        "icon-size": 16,
+        "spacing": 4,
+        "icon-theme": "kalaos-icons"
+    },
+
+    "power": {
+        "format": "⏻",
+        "on-click": "wlogout",
+        "tooltip": false
+    },
+
+    "custom/kala": {
+        "format": "🐱",
+        "tooltip": "KalaOS - Click for menu",
+        "on-click": "kala theme purple-red",
+        "on-click-middle": "kala config edit",
+        "on-click-right": "kala doctor"
+    }
+}

@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+# KalaOS opencode Wrapper - Pre-carga contexto completo del sistema
+# Uso: kalaos-opencode [args...]
+
+set -euo pipefail
+
+SKILL_FILE="/home/jairo/kalaos/dotfiles/kalaos-skill.md"
+
+# Verificar que existe el skill
+if [[ ! -f "$SKILL_FILE" ]]; then
+    echo "Error: Skill file not found at $SKILL_FILE"
+    exit 1
+fi
+
+# opencode usa configuración vía archivo, creamos config temporal
+OPENCODE_CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/opencode"
+mkdir -p "$OPENCODE_CONFIG_DIR"
+
+# Crear config con contexto KalaOS
+cat > "$OPENCODE_CONFIG_DIR/kalaos-context.json" <<'EOF'
+{
+  "systemPrompt": "Eres un agente experto en KalaOS - una distribución Arch-based gaming optimizada. Tienes acceso completo al contexto del sistema mediante el skill KalaOS.\n\nCAPACIDADES PRINCIPALES:\n- Diagnosticar errores del sistema (kernel, drivers, Hyprland, gaming, audio, red)\n- Leer y modificar configuraciones (/etc/kala/kalaos.conf, dotfiles, módulos)\n- Ejecutar comandos de diagnóstico (kala doctor, journalctl, hyprctl, nvidia-smi, etc.)\n- Reparar problemas comunes (initramfs, temas, gaming performance, etc.)\n- Explicar arquitectura y módulos del sistema\n\nHERRAMIENTAS DISPONIBLES:\n- bash: ejecutar comandos del sistema\n- read: leer archivos de config/logs\n- edit: modificar archivos de configuración\n- task: crear sub-agentes para tareas complejas\n\nFLUJO DE TRABAJO:\n1. Analiza el problema con kala doctor / logs relevantes\n2. Identifica la causa raíz (kernel, driver, config, servicio)\n3. Aplica fix idempotente (editando kalaos.conf + re-ejecutando módulo, o fix directo)\n4. Verifica con kala doctor / smoke tests\n5. Documenta el fix para futuras referencias\n\nRECURSOS CLAVE:\n- Config principal: /etc/kala/kalaos.conf\n- Módulos: /home/jairo/kalaos/modules/00-13.sh\n- Dotfiles: /home/jairo/kalaos/dotfiles/\n- Logs: journalctl -u <service>\n- Hyprland: hyprctl <command>\n- GPU: nvidia-smi / radeontop / intel_gpu_top",
+  "tools": ["bash", "read", "write", "edit"],
+  "env": {
+    "KALAOS_SKILL": "/home/jairo/kalaos/dotfiles/kalaos-skill.md",
+    "KALAOS_CONFIG": "/etc/kala/kalaos.conf",
+    "KALAOS_REPO": "/home/jairo/kalaos"
+  }
+}
+EOF
+
+# Ejecutar opencode con la config
+exec opencode --config "$OPENCODE_CONFIG_DIR/kalaos-context.json" "$@"

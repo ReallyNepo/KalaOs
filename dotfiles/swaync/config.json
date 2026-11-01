@@ -1,0 +1,19 @@
+{
+    "positionX": "right",
+    "positionY": "top",
+    "layer": "overlay",
+    "control-center-layer": "overlay",
+    "cssPriority": "application",
+    "notification-visible-time": 5000,
+    "notification-body-text-size": 12,
+    "notification-title-text-size": 13,
+    "notification-icon-size": 48,
+    "widgets": ["title", "notifications"],
+    "widget-config": {
+        "title": {
+            "text": "Notifications",
+            "clear-all-button": true,
+            "button-text": "Clear"
+        }
+    }
+}

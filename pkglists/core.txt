@@ -1,0 +1,97 @@
+# KalaOS Core Packages - Base system packages
+# Installed by module 00-base.sh
+
+# Base system
+base
+base-devel
+linux-firmware
+
+# Package management
+yay
+
+# System utilities
+sudo
+polkit
+reflector
+rsync
+unzip
+p7zip
+tar
+gzip
+bzip2
+xz
+zstd
+
+# Network
+networkmanager
+network-manager-applet
+nm-connection-editor
+
+# Bluetooth
+bluez
+bluez-utils
+blueman
+
+# Audio (PipeWire)
+pipewire
+pipewire-pulse
+pipewire-alsa
+pipewire-jack
+wireplumber
+libpipewire
+
+# Graphics/Vulkan
+mesa
+vulkan-radeon
+vulkan-intel
+vulkan-icd-loader
+vulkan-tools
+
+# Filesystems
+btrfs-progs
+dosfstools
+exfatprogs
+f2fs-tools
+ntfs-3g
+udftools
+
+# Virtualization
+qemu-full
+libvirt
+virt-manager
+dnsmasq
+bridge-utils
+vde2
+openbsd-netcat
+
+# Fonts
+noto-fonts
+noto-fonts-cjk
+noto-fonts-emoji
+ttf-liberation
+
+# Utilities
+htop
+btop
+fastfetch
+neofetch
+jq
+yq
+fzf
+ripgrep
+fd
+bat
+eza
+zoxide
+
+# Dotfiles management
+stow
+chezmoi
+
+# Security
+age
+sops
+
+# ─── AI Agents (Troubleshooting) ───────────────────────────────
+claude-code
+opencode

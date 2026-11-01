@@ -1,0 +1,55 @@
+# KalaOS Debloat Packages - Packages to REMOVE
+# Used by module 11-debloat.sh
+
+# Minimal level
+gnome-text-editor
+gnome-calculator
+gnome-clocks
+gnome-weather
+gnome-maps
+gnome-contacts
+gnome-calendar
+totem
+rhythmbox
+cheese
+simple-scan
+baobab
+file-roller
+evince
+eog
+loupe
+snapshot
+
+# Standard level (includes minimal)
+firefox
+thunderbird
+libreoffice-fresh
+gimp
+inkscape
+audacity
+obs-studio
+kdenlive
+alacritty
+kitty
+foot
+konsole
+gnome-terminal
+kgx
+code
+geany
+mousepad
+vlc
+mpv
+celluloid
+
+# Aggressive level (includes standard)
+nautilus
+thunar
+dolphin
+pcmanfm
+network-manager-applet
+blueman
+cups
+system-config-printer
+orca
+speech-dispatcher

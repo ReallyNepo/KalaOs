@@ -1,0 +1,11 @@
+# KalaOS Wofi Config
+gtk_theme = kalaos-gtk
+font = SF Pro Display 11
+allow_markup = true
+show_icons = true
+icon_theme = kalaos-icons
+width = 600
+height = 400
+location = center
+hide_scroll = true
+prompt = "KalaOS 🐱 "

@@ -1,0 +1,83 @@
+# KalaOS Starship Config - Purple/Red theme
+format = """
+$username\
+$hostname\
+$directory\
+$git_branch\
+$git_status\
+$git_commit\
+$rust\
+$golang\
+$nodejs\
+$python\
+$docker_context\
+$package\
+$cmd_duration\
+$line_break\
+$character"""
+
+[character]
+success_symbol = "[🐱](bold purple)"
+error_symbol = "[😿](bold red)"
+vicmd_symbol = "[⌘](bold purple)"
+
+[username]
+show_always = true
+format = "[$user](bold purple) "
+disabled = false
+
+[hostname]
+ssh_only = false
+format = "@[$hostname](bold red) "
+disabled = false
+
+[directory]
+truncation_length = 3
+truncation_symbol = "…/"
+format = "[$path](bold purple)[$read_only](bold red) "
+
+[git_branch]
+symbol = "🌱 "
+format = "[$symbol$branch](bold purple) "
+
+[git_status]
+format = "([$all_status](bold red)) "
+conflicted = "⚔️ "
+ahead = "⬆️ "
+behind = "⬇️ "
+diverged = "↕️ "
+untracked = "🆕 "
+stashed = "📦 "
+modified = "📝 "
+deleted = "🗑️ "
+renamed = "📛 "
+
+[cmd_duration]
+min_time = 2000
+format = "[$duration](bold yellow) "
+disabled = false
+
+[rust]
+symbol = "🦀 "
+format = "via [$symbol$version](bold red) "
+
+[golang]
+symbol = "🐹 "
+format = "via [$symbol$version](bold purple) "
+
+[nodejs]
+symbol = "📦 "
+format = "via [$symbol$version](bold green) "
+
+[python]
+symbol = "🐍 "
+format = "via [$symbol$version](bold yellow) "
+
+[docker_context]
+symbol = "🐳 "
+format = "[$symbol$context](bold blue) "
+
+[package]
+symbol = "📦 "
+format = "[$symbol$version](bold cyan) "
+disabled = false
