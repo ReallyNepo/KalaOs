@@ -14,15 +14,18 @@ SHELL_PKGS=(
     ripgrep
     bat
     eza
-    delta
-    git-delta
     direnv
     mise                    # runtime version manager (asdf replacement)
-    carapace                # completions engine
-    fisher                  # fish plugin manager
+)
+
+AUR_SHELL_PKGS=(
+    git-delta               # modern git diff (AUR)
+    carapace-bin            # completions engine (AUR)
+    fisher                  # fish plugin manager (AUR)
 )
 
 pacman_install "${SHELL_PKGS[@]}"
+aur_install "${AUR_SHELL_PKGS[@]}"
 
 # ─── Ghostty config con syntax highlighting IDE-like ───────────
 log_step "Configuring Ghostty with IDE-like syntax highlighting"
