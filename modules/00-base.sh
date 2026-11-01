@@ -58,7 +58,7 @@ BASE_PKGS=(
     # Gráficos/Vulkan
     mesa vulkan-radeon vulkan-intel vulkan-icd-loader vulkan-tools
     # Sistema archivos
-    btrfs-progs dosfstools exfatprogs f2fs-tools ntfs-3p udftools
+    btrfs-progs dosfstools exfatprogs f2fs-tools ntfs-3g udftools
     # Virtualización
     qemu-full libvirt virt-manager dnsmasq bridge-utils vde2 openbsd-netcat
     # Fuentes esenciales
