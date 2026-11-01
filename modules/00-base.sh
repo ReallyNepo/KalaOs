@@ -22,7 +22,7 @@ fi
 run_cmd "pacman -Sy" "Sync package databases"
 
 # Ensure chaotic-aur is DISABLED during base package install (in case it was added in previous run)
-run_cmd "sed -i '/^\[chaotic-aur\]/,/^Include.*chaotic-mirrorlist/d' /etc/pacman.conf" "Remove chaotic-aur from pacman.conf for base install"
+run_cmd "sed -i '/^\[chaotic-aur\]/,/^\[/ { /^\[chaotic-aur\]/d; /^Include.*chaotic-mirrorlist/d; }' /etc/pacman.conf" "Remove chaotic-aur from pacman.conf for base install"
 run_cmd "pacman -Sy" "Sync databases without chaotic-aur"
 
 # ─── Paquetes base esenciales ──────────────────────────────────
