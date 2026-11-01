@@ -43,10 +43,10 @@ if [[ "$GAMESCOPE_SESSION" == true ]]; then
     GAMING_PKGS+=(
         gamescope
         lib32-gamescope
-        steamdeck-kmod-dkms   # AUR: kernel modules para deck features
+        jupiter-dkms          # AUR: Steam Deck (Jupiter) hardware support
     )
     pacman_install gamescope lib32-gamescope
-    aur_install steamdeck-kmod-dkms
+    aur_install jupiter-dkms
 fi
 
 # ─── Performance / Overlay tools ───────────────────────────────
