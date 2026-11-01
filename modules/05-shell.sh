@@ -318,7 +318,9 @@ disabled = false
 STARSHIP_EOF
 
 # ─── Atuin config ──────────────────────────────────────────────
-cat > ${KALAOS_REPO:-$HOME/kalaos}/dotfiles/fish/conf.d/atuin.fish <<'ATUIN_EOF'
+run_cmd "mkdir -p $DOTFILES_DIR/fish/conf.d" "Fish conf.d dotfiles dir"
+
+cat > $DOTFILES_DIR/fish/conf.d/atuin.fish <<'ATUIN_EOF'
 # Atuin config
 set -g ATUIN_SEARCH_MODE fzf
 set -g ATUIN_STYLE compact
