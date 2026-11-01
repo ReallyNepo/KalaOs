@@ -51,7 +51,7 @@ run_cmd "pacman -Rdd --noconfirm jack2 2>/dev/null || true" "Remove jack2 (confl
 # Remove mesa-tkg variants (conflicts with standard mesa)
 run_cmd "pacman -Rdd --noconfirm mesa-tkg mesa-tkg-git 2>/dev/null || true" "Remove mesa-tkg variants (conflicts with standard mesa)"
 
-# Install standard mesa from extra first to claim slot before chaotic-aur pulls mesa-tkg-git
+# Install standard mesa from extra first (separate transaction) to claim slot before chaotic-aur pulls mesa-tkg-git
 run_cmd "pacman -S --needed --noconfirm extra/mesa" "Install standard mesa from extra repo"
 
 BASE_PKGS=(
@@ -67,8 +67,8 @@ BASE_PKGS=(
     bluez bluez-utils blueman
     # Audio (PipeWire completo)
     pipewire pipewire-pulse pipewire-alsa pipewire-jack wireplumber libpipewire
-    # Gráficos/Vulkan
-    mesa vulkan-radeon vulkan-intel vulkan-icd-loader vulkan-tools
+    # Gráficos/Vulkan (mesa installed separately above)
+    vulkan-radeon vulkan-intel vulkan-icd-loader vulkan-tools
     # Sistema archivos
     btrfs-progs dosfstools exfatprogs f2fs-tools ntfs-3g udftools
     # Virtualización
