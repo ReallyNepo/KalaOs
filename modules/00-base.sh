@@ -45,6 +45,9 @@ log_step "Installing base packages"
 # Remove conflicting firmware packages first (linux-firmware-other provides same files)
 run_cmd "pacman -Rdd --noconfirm linux-firmware-other 2>/dev/null || true" "Remove conflicting linux-firmware-other"
 
+# Remove jack2 (conflicts with pipewire-jack which provides JACK)
+run_cmd "pacman -Rdd --noconfirm jack2 2>/dev/null || true" "Remove jack2 (conflicts with pipewire-jack)"
+
 BASE_PKGS=(
     # Sistema base
     base base-devel linux-firmware linux-firmware-amd linux-firmware-ti
