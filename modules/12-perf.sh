@@ -110,6 +110,7 @@ log_step "Enabling fstrim timer"
 enable_service fstrim.timer
 
 # ─── tuned profile para gaming ────────────────────────────────
+run_cmd "mkdir -p /etc/tuned" "Tuned config dir"
 run_cmd "cat > /etc/tuned/kalaos-gaming.conf <<'EOF'
 [main]
 summary=KalaOS Gaming Profile
@@ -143,6 +144,7 @@ run_cmd "tuned-adm profile kalaos-gaming" "Apply tuned gaming profile"
 
 # ─── Preload (app startup) ────────────────────────────────────
 # No preload moderno (systemd-homed lo maneja), pero podemos usar systemd-oomd
+run_cmd "mkdir -p /etc/systemd/oomd.conf.d" "systemd-oomd config dir"
 run_cmd "cat > /etc/systemd/oomd.conf.d/kalaos.conf <<'EOF'
 [ManagedOOMMemoryPressureLimit]
 DefaultMemoryPressureLimit=80
