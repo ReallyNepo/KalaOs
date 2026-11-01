@@ -32,10 +32,17 @@ stow_dotfiles rofi
 stow_dotfiles wofi
 stow_dotfiles swaync
 
+# ─── Ensure dotfiles dirs exist ──────────────────────────────────
+DOTFILES_DIR="${SCRIPT_DIR:-$HOME/kalaos}/dotfiles"
+run_cmd "mkdir -p $DOTFILES_DIR/waybar" "Waybar dotfiles dir"
+run_cmd "mkdir -p $DOTFILES_DIR/rofi" "Rofi dotfiles dir"
+run_cmd "mkdir -p $DOTFILES_DIR/wofi" "Wofi dotfiles dir"
+run_cmd "mkdir -p $DOTFILES_DIR/swaync" "SwayNC dotfiles dir"
+
 # ─── Waybar config base (colores dinámicos en 07-theming) ──────
 run_cmd "mkdir -p \$HOME/.config/waybar" "Waybar config dir"
 
-cat > ${KALAOS_REPO:-$HOME/kalaos}/dotfiles/waybar/config.jsonc <<'WAYBAR_CONFIG_EOF'
+cat > $DOTFILES_DIR/waybar/config.jsonc <<'WAYBAR_CONFIG_EOF'
 {
     "layer": "top",
     "position": "top",
@@ -119,7 +126,7 @@ cat > ${KALAOS_REPO:-$HOME/kalaos}/dotfiles/waybar/config.jsonc <<'WAYBAR_CONFIG
 }
 WAYBAR_CONFIG_EOF
 
-cat > ${KALAOS_REPO:-$HOME/kalaos}/dotfiles/waybar/style.css <<'WAYBAR_STYLE_EOF'
+cat > $DOTFILES_DIR/waybar/style.css <<'WAYBAR_STYLE_EOF'
 /* KalaOS Waybar Style - Colors injected by theming module */
 @import "colors-waybar.css";
 
@@ -188,7 +195,7 @@ window#waybar {
 WAYBAR_STYLE_EOF
 
 # ─── Rofi config ──────────────────────────────────────────────
-cat > ${KALAOS_REPO:-$HOME/kalaos}/dotfiles/rofi/config.rasi <<'ROFI_CONFIG_EOF'
+cat > $DOTFILES_DIR/rofi/config.rasi <<'ROFI_CONFIG_EOF'
 /* KalaOS Rofi Config - Theme injected by theming module */
 @theme "kalaos-theme"
 
@@ -208,7 +215,7 @@ configuration {
 ROFI_CONFIG_EOF
 
 # ─── Wofi config ──────────────────────────────────────────────
-cat > ${KALAOS_REPO:-$HOME/kalaos}/dotfiles/wofi/config <<'WOFI_CONFIG_EOF'
+cat > $DOTFILES_DIR/wofi/config <<'WOFI_CONFIG_EOF'
 # KalaOS Wofi Config
 gtk_theme = kalaos-gtk
 font = SF Pro Display 11
@@ -218,7 +225,7 @@ icon_theme = kalaos-icons
 WOFI_CONFIG_EOF
 
 # ─── SwayNC config ────────────────────────────────────────────
-cat > ${KALAOS_REPO:-$HOME/kalaos}/dotfiles/swaync/config.json <<'SWAYNC_CONFIG_EOF'
+cat > $DOTFILES_DIR/swaync/config.json <<'SWAYNC_CONFIG_EOF'
 {
     "positionX": "right",
     "positionY": "top",
