@@ -10,8 +10,7 @@ THEMING_PKGS=(
     swaybg                  # Fallback wallpaper
     gnome-themes-extra      # GTK themes base
     adw-gtk-theme           # GTK4 themes
-    kvantum-qt5             # QT theming
-    kvantum-qt6
+    kvantum                 # QT theming (Qt5 + Qt6)
     nwg-look                # GTK3/4 theme editor (GUI)
 )
 
