@@ -229,7 +229,9 @@ FISH_PLUGINS_EOF
 # ─── Starship config (tema morado/rojo) ────────────────────────
 log_step "Configuring Starship prompt"
 
-cat > ${KALAOS_REPO:-$HOME/kalaos}/dotfiles/starship/starship.toml <<'STARSHIP_EOF'
+run_cmd "mkdir -p $DOTFILES_DIR/starship" "Starship dotfiles dir"
+
+cat > $DOTFILES_DIR/starship/starship.toml <<'STARSHIP_EOF'
 # KalaOS Starship Config - Purple/Red theme
 format = """
 $username\
