@@ -35,9 +35,9 @@ cat > ${KALAOS_REPO:-$HOME/kalaos}/assets/fonts/KalaPixel/README.md <<'FONT_READ
 
 Fuente pixel art personalizada para KALAOS logo y elementos UI.
 
-## Generar desde SVG (logo cat-arch)
+## Generar desde logo (user provided PNG)
 
-1. Crear SVG del logo en assets/logo/kalaos-cat-arch.svg
+1. Usar logo en assets/logo/kalaos-logo.png
 2. Usar fontforge o tools online (fontello, icomoon) para generar TTF/WOFF
 3. Colocar aquí como KalaPixel.ttf
 

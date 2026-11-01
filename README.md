@@ -9,9 +9,33 @@
 
 > **Arch-based. Cat-powered. Game-ready.**
 
-KalaOS es una distribución Linux gaming optimizada basada en **kernel CachyOS** con **Hyprland**, **Ghostty**, y una estética **pixel-art cat-arch** con paleta rojo/morado personalizable.
+KalaOS es una distribución Linux gaming optimizada basada en **kernel CachyOS** con **Hyprland**, **Ghostty**, y un logo **ASCII art** basado en Arch con orejas de gato (rojo), con paleta rojo/morado personalizable.
 
-![KalaOS Logo](assets/logo/kalaos-cat-arch-256.png)
+```
+\e[31m
+       /\
+      /  \
+                   -`
+                  .o+`
+                 `ooo/
+                `+oooo:
+               `+oooooo:
+               -+oooooo+:
+             `/:-:++oooo+:
+            `/++++/+++++++:
+           `/++++++++++++++:
+          `/+++ooooooooooooo/
+         ./ooosssso++osssssso+
+        .oossssso-````/ossssss+
+       -osssssso.      :ssssssso.
+      :osssssss/        osssso+++.
+     /ossssssss/        +ssssooo/-
+   `/ossssso+/:-        -:/+osssso+-
+  `+sso+:-`                 `.-/+oso:
+ `++:.                           `-/+/
+ .`                                 `/
+\e[0m
+```
 
 ### ✨ Características
 
@@ -155,7 +179,7 @@ kalaos/
 | `10-cli` | CLI `kala` + AI agents (`claude-code`, `opencode`) |
 | `11-debloat` | Limpieza 3 niveles (apps, locales, docs, man) |
 | `12-perf` | ZRAM, governor, irqbalance, sysctl, tuned, fstrim |
-| `13-branding` | Logo cat-arch, bootsplash, plymouth |
+| `13-branding` | ASCII logo (Arch + cat ears), bootsplash, plymouth |
 
 ---
 
@@ -190,7 +214,7 @@ journalctl -u greetd -f
 
 > **Arch-based. Cat-powered. Game-ready.**
 
-KalaOS is an optimized gaming Linux distribution based on **CachyOS kernel** with **Hyprland**, **Ghostty**, and a **pixel-art cat-arch** aesthetic with a customizable red/purple palette.
+KalaOS is an optimized gaming Linux distribution based on **CachyOS kernel** with **Hyprland**, **Ghostty**, and an **ASCII art logo** based on Arch Linux with cat ears and whiskers (red), with a customizable red/purple palette.
 
 ### ✨ Features
 
@@ -334,7 +358,7 @@ kalaos/
 | `10-cli` | CLI `kala` + AI agents (`claude-code`, `opencode`) |
 | `11-debloat` | Cleanup 3 levels (apps, locales, docs, man) |
 | `12-perf` | ZRAM, governor, irqbalance, sysctl, tuned, fstrim |
-| `13-branding` | Cat-arch logo, bootsplash, plymouth |
+| `13-branding` | ASCII logo (Arch + cat ears), bootsplash, plymouth |
 
 ---
 

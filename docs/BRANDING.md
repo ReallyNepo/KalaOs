@@ -1,22 +1,18 @@
 # KalaOS Branding Guide
 
-## Logo: Cat-Arch
+## Logo: KalaOS Cat-Arch
 
 ### Concepto
-Logo oficial de Arch Linux (triángulo) + orejas de gato + bigotes + ojos animados.
+Logo basado en Arch Linux (triángulo) + orejas de gato, proporcionado por el usuario como imagen PNG.
 
 ### Archivos
 ```
 assets/logo/
-├── kalaos-cat-arch.svg          # Vectorial (fuente)
-├── kalaos-cat-arch-16.png       # 16x16  (favicon, tray)
-├── kalaos-cat-arch-32.png       # 32x32  (taskbar, alt-tab)
-├── kalaos-cat-arch-48.png       # 48x48  (app launcher)
-├── kalaos-cat-arch-64.png       # 64x64  (dock)
-├── kalaos-cat-arch-128.png      # 128x128 (about)
-├── kalaos-cat-arch-256.png      # 256x256 (bootsplash, plymouth)
-└── kalaos-cat-arch-512.png      # 512x512 (installer, SDDM)
+├── kalaos-logo.png              # Logo fuente (PNG proporcionado por usuario, 1024x1536)
+├── kalaos-ascii.txt             # ASCII art para terminal (generado con chafa)
 ```
+
+Los iconos de sistema (16x16 a 512x512) se generan automáticamente desde `kalaos-logo.png` durante la instalación.
 
 ### Paleta de Colores Oficial
 
@@ -57,26 +53,15 @@ background: conic-gradient(from 45deg, #7C3AED, #C0392B, #7C3AED);
 ## Elementos Visuales
 
 ### Cat Ears (Orejas)
-- Forma: Triángulo isósceles
+- Forma: Triángulo isósceles (parte del logo PNG)
 - Color: Red gradient (`#C0392B` → `#E74C3C`)
 - Inner ear: `#FF6B35` (orange accent)
 - Posición: En vértices superiores del triángulo Arch
 
-### Whiskers (Bigotes)
-- 3 por lado
-- Color: `#F5E6F8` @ 70% opacity
-- Curvatura sutil hacia afuera
-
-### Eyes (Ojos)
-- Forma: Elipse vertical (rx=18, ry=28)
-- Color: `#FF6B35` (orange)
-- Pupila: Elipse vertical (rx=6, ry=16) color `#1A0D1F`
-- Animación: Parpadeo cada 4s (ry: 28→4→28)
-
 ## Aplicaciones
 
 ### Boot Splash / Plymouth
-- Logo centrado 256x256
+- Logo centrado 256x256 (generado desde kalaos-logo.png)
 - Texto "KalaOS" debajo (monospace, 28px, `#F5E6F8`)
 - Tagline: "Arch-based. Cat-powered. Game-ready." (12px, `#7C3AED`)
 - Progress bar: Purple border, Red fill
@@ -84,13 +69,13 @@ background: conic-gradient(from 45deg, #7C3AED, #C0392B, #7C3AED);
 
 ### SDDM / Greetd (tuigreet)
 - Background: `#1A0D1F`
-- Logo: 128x128 arriba
+- Logo: 128x128 arriba (generado desde kalaos-logo.png)
 - Input fields: Surface background, purple focus border
 - Buttons: Purple background, dark text
 - Hover: Light purple
 
 ### Terminal (fastfetch/neofetch)
-- Logo ASCII/Chafa 40x20
+- Logo ASCII/Chafa 60x30 (generado desde kalaos-logo.png, guardado en kalaos-ascii.txt)
 - Info cols: Purple keys, Red values
 - Separator: ` -> `
 
@@ -124,15 +109,29 @@ Todos usan `Icon=kalaos` (resuelve a hicolor apps/kalaos.png)
 ## Generar Assets
 
 ```bash
-# Desde SVG a PNGs múltiples tamaños
+# Desde PNG fuente a iconos de sistema múltiples tamaños
 for size in 16 32 48 64 128 256 512; do
-  magick assets/logo/kalaos-cat-arch.svg \
+  magick assets/logo/kalaos-logo.png \
          -resize ${size}x${size} \
-         assets/logo/kalaos-cat-arch-${size}.png
+         /usr/share/icons/hicolor/${size}x${size}/apps/kalaos.png
 done
 
+# Boot splash (256x256)
+magick assets/logo/kalaos-logo.png -resize 256x256 /boot/splash/kalaos.png
+
+# Plymouth (256x256)
+magick assets/logo/kalaos-logo.png -resize 256x256 /usr/share/plymouth/themes/kalaos/kalaos-logo.png
+
+# SDDM background (1920x1080)
+magick assets/logo/kalaos-logo.png -resize 1920x1080 /usr/share/sddm/themes/kalaos/background.png
+
+# ASCII para terminal (fastfetch)
+chafa --format=symbols --symbols=block --colors=256 --size=60x30 assets/logo/kalaos-logo.png > assets/logo/kalaos-ascii.txt
+
 # Favicon ICO
-magick assets/logo/kalaos-cat-arch-{16,32,48,64}.png assets/logo/favicon.ico
+magick assets/logo/kalaos-logo.png -resize 16x16 assets/logo/favicon-16.png
+magick assets/logo/kalaos-logo.png -resize 32x32 assets/logo/favicon-32.png
+magick assets/logo/kalaos-logo.png -resize 48x48 assets/logo/favicon-48.png
 ```
 
 ## Guidelines

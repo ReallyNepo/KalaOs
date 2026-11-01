@@ -270,8 +270,8 @@ cmd_restore() {
 
 # Subcommand: logo
 cmd_logo() {
-    if command -v chafa &>/dev/null && [[ -f ${KALAOS_REPO:-$HOME/kalaos}/assets/logo/kalaos-cat-arch.png ]]; then
-        chafa --size 40x20 ${KALAOS_REPO:-$HOME/kalaos}/assets/logo/kalaos-cat-arch.png
+    if command -v chafa &>/dev/null && [[ -f ${KALAOS_REPO:-$HOME/kalaos}/assets/logo/kalaos-logo.png ]]; then
+        chafa --size 40x20 ${KALAOS_REPO:-$HOME/kalaos}/assets/logo/kalaos-logo.png
     else
         show_logo
     fi

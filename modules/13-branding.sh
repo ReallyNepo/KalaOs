@@ -1,116 +1,66 @@
 #!/usr/bin/env bash
-# Module: 13-branding - Logo pixel-art cat-arch, boot splash, plymouth theme
+# Module: 13-branding - KalaOS logo (user provided PNG), boot splash, plymouth theme
 
 log_step "Installing KalaOS branding (logo, bootsplash, plymouth)"
 
 BRANDING_PKGS=(
     plymouth
-    chafa                    # Terminal image viewer para logo
+    chafa                    # Terminal image viewer para logo ASCII
     imagemagick              # Image processing
 )
 
 pacman_install "${BRANDING_PKGS[@]}"
 
-# ─── Crear logo pixel-art cat-arch (SVG + PNGs) ───────────────
-log_step "Creating pixel-art cat-arch logo"
+# ─── Usar logo proporcionado por el usuario ───────────────────────
+log_step "Setting up KalaOS logo from user file"
 
-mkdir -p ${KALAOS_REPO:-$HOME/kalaos}/assets/logo
+LOGO_SRC="${KALAOS_REPO:-$HOME/kalaos}/assets/logo/kalaos-logo.png"
+LOGO_DIR="/usr/share/icons/hicolor"
 
-# SVG vectorial del logo cat-arch (Arch triangle + cat ears)
-cat > ${KALAOS_REPO:-$HOME/kalaos}/assets/logo/kalaos-cat-arch.svg <<'SVG_EOF'
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-  <!-- KalaOS Cat-Arch Logo - Pixel Art Style -->
-  <!-- Colors: Purple #7C3AED, Red #C0392B, Dark #1A0D1F, Light #F5E6F8 -->
+# Verificar que existe el logo
+if [[ ! -f "$LOGO_SRC" ]]; then
+    log_warn "Logo no encontrado en $LOGO_SRC, saltando branding"
+    return 0
+fi
 
-  <defs>
-    <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#7C3AED;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#A855F7;stop-opacity:1" />
-    </linearGradient>
-    <linearGradient id="redGrad" x1="0%" y1="100%" x2="100%" y2="0%">
-      <stop offset="0%" style="stop-color:#C0392B;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#E74C3C;stop-opacity:1" />
-    </linearGradient>
-  </defs>
-
-  <!-- Background circle (optional) -->
-  <circle cx="256" cy="256" r="240" fill="#1A0D1F" stroke="#7C3AED" stroke-width="4"/>
-
-  <!-- Arch Triangle (main shape) - Purple gradient -->
-  <polygon points="256,40 460,440 60,440" fill="url(#purpleGrad)" stroke="#A855F7" stroke-width="3"/>
-
-  <!-- Inner triangle highlight -->
-  <polygon points="256,80 420,410 92,410" fill="none" stroke="#A855F7" stroke-width="1" opacity="0.5"/>
-
-  <!-- Cat Ears (left) - Red gradient -->
-  <polygon points="120,180 160,80 200,180" fill="url(#redGrad)" stroke="#E74C3C" stroke-width="2"/>
-  <!-- Cat Ear inner -->
-  <polygon points="135,170 160,100 185,170" fill="#FF6B35" opacity="0.8"/>
-
-  <!-- Cat Ears (right) - Red gradient -->
-  <polygon points="312,180 352,80 392,180" fill="url(#redGrad)" stroke="#E74C3C" stroke-width="2"/>
-  <!-- Cat Ear inner -->
-  <polygon points="327,170 352,100 377,170" fill="#FF6B35" opacity="0.8"/>
-
-  <!-- Whiskers (left) -->
-  <g stroke="#F5E6F8" stroke-width="2" opacity="0.7">
-    <line x1="160" y1="280" x2="80" y2="260"/>
-    <line x1="160" y1="300" x2="70" y2="300"/>
-    <line x1="160" y1="320" x2="80" y2="340"/>
-  </g>
-
-  <!-- Whiskers (right) -->
-  <g stroke="#F5E6F8" stroke-width="2" opacity="0.7">
-    <line x1="352" y1="280" x2="432" y2="260"/>
-    <line x1="352" y1="300" x2="442" y2="300"/>
-    <line x1="352" y1="320" x2="432" y2="340"/>
-  </g>
-
-  <!-- Eyes (cat-style) -->
-  <ellipse cx="200" cy="260" rx="18" ry="28" fill="#FF6B35">
-    <animate attributeName="ry" values="28;4;28" dur="4s" repeatCount="indefinite" begin="0s"/>
-  </ellipse>
-  <ellipse cx="312" cy="260" rx="18" ry="28" fill="#FF6B35">
-    <animate attributeName="ry" values="28;4;28" dur="4s" repeatCount="indefinite" begin="0.1s"/>
-  </ellipse>
-
-  <!-- Pupils -->
-  <ellipse cx="200" cy="260" rx="6" ry="16" fill="#1A0D1F"/>
-  <ellipse cx="312" cy="260" rx="6" ry="16" fill="#1A0D1F"/>
-
-  <!-- Nose -->
-  <polygon points="256,300 248,315 264,315" fill="#C0392B"/>
-
-  <!-- Mouth -->
-  <path d="M 256 315 Q 256 330 240 330 M 256 315 Q 256 330 272 330" stroke="#C0392B" stroke-width="2" fill="none"/>
-
-  <!-- "KALA" text bottom -->
-  <text x="256" y="460" font-family="monospace" font-size="28" font-weight="bold"
-        fill="#F5E6F8" text-anchor="middle" letter-spacing="8">KALA</text>
-  <text x="256" y="485" font-family="monospace" font-size="12"
-        fill="#A855F7" text-anchor="middle">OS</text>
-</svg>
-SVG_EOF
-
-# Generar PNGs en múltiples resoluciones
-log_step "Generating PNG variants from SVG"
+# Instalar iconos en sistema (múltiples resoluciones)
+run_cmd "mkdir -p $LOGO_DIR/{16x16,32x32,48x48,64x64,128x128,256x256,512x512}/apps" "Icon directories"
 for size in 16 32 48 64 128 256 512; do
-    magick ${KALAOS_REPO:-$HOME/kalaos}/assets/logo/kalaos-cat-arch.svg \
-           -resize ${size}x${size} \
-           ${KALAOS_REPO:-$HOME/kalaos}/assets/logo/kalaos-cat-arch-${size}.png 2>/dev/null || \
-    convert ${KALAOS_REPO:-$HOME/kalaos}/assets/logo/kalaos-cat-arch.svg \
-            -resize ${size}x${size} \
-            ${KALAOS_REPO:-$HOME/kalaos}/assets/logo/kalaos-cat-arch-${size}.png 2>/dev/null || true
+    run_cmd "magick '$LOGO_SRC' -resize ${size}x${size} '$LOGO_DIR/${size}x${size}/apps/kalaos.png'" "Install ${size}px icon"
 done
 
-# Instalar iconos en sistema
-run_cmd "mkdir -p /usr/share/icons/hicolor/{16x16,32x32,48x48,64x64,128x128,256x256,512x512}/apps" "Icon directories"
-for size in 16 32 48 64 128 256 512; do
-    if [[ -f ${KALAOS_REPO:-$HOME/kalaos}/assets/logo/kalaos-cat-arch-${size}.png ]]; then
-        run_cmd "cp ${KALAOS_REPO:-$HOME/kalaos}/assets/logo/kalaos-cat-arch-${size}.png /usr/share/icons/hicolor/${size}x${size}/apps/kalaos.png" "Install ${size}px icon"
-    fi
-done
+# ─── Generar ASCII para terminal (fastfetch) ──────────────────────
+log_step "Generating ASCII logo for terminal"
+
+mkdir -p "${KALAOS_REPO:-$HOME/kalaos}/dotfiles/fastfetch"
+chafa --format=symbols --symbols=block --colors=256 --size=60x30 "$LOGO_SRC" > "${KALAOS_REPO:-$HOME/kalaos}/assets/logo/kalaos-ascii.txt" 2>/dev/null || {
+    # Fallback si chafa falla
+    cat > "${KALAOS_REPO:-$HOME/kalaos}/assets/logo/kalaos-ascii.txt" <<'ASCII_EOF'
+\e[31m
+       /\
+      /  \
+                   -`
+                  .o+`
+                 `ooo/
+                `+oooo:
+               `+oooooo:
+               -+oooooo+:
+             `/:-:++oooo+:
+            `/++++/+++++++:
+           `/++++++++++++++:
+          `/+++ooooooooooooo/
+         ./ooosssso++osssssso+
+        .oossssso-````/ossssss+
+       -osssssso.      :ssssssso.
+      :osssssss/        osssso+++.
+     /ossssssss/        +ssssooo/-
+   `/ossssso+/:-        -:/+osssso+-
+  `+sso+:-`                 `.-/+oso:
+ `++:.                           `-/+/
+ .`                                 `/
+\e[0m
+ASCII_EOF
+}
 
 # ─── Boot Splash (systemd-boot / GRUB) ────────────────────────
 if [[ "$BOOTSPLASH" == true ]]; then
@@ -119,10 +69,8 @@ if [[ "$BOOTSPLASH" == true ]]; then
     # systemd-boot splash
     if [[ "$BOOTLOADER" == "systemd-boot" ]]; then
         run_cmd "mkdir -p /boot/splash" "Boot splash dir"
-        run_cmd "cp ${KALAOS_REPO:-$HOME/kalaos}/assets/logo/kalaos-cat-arch-256.png /boot/splash/kalaos.png" "Copy splash image"
+        run_cmd "magick '$LOGO_SRC' -resize 256x256 /boot/splash/kalaos.png" "Copy splash image"
 
-        # kernel cmdline ya tiene quiet splash en 01-kernel.sh
-        # Agregar splash a entries
         for entry in /boot/loader/entries/*.conf; do
             [[ -f "$entry" ]] && run_cmd "sed -i 's/^options /options splash /' '$entry'" "Add splash to $entry"
         done
@@ -130,7 +78,7 @@ if [[ "$BOOTSPLASH" == true ]]; then
 
     # GRUB splash
     if [[ "$BOOTLOADER" == "grub" ]]; then
-        run_cmd "cp ${KALAOS_REPO:-$HOME/kalaos}/assets/logo/kalaos-cat-arch-256.png /boot/grub/kalaos.png" "GRUB splash"
+        run_cmd "magick '$LOGO_SRC' -resize 256x256 /boot/grub/kalaos.png" "GRUB splash"
         run_cmd "sed -i 's/^GRUB_CMDLINE_LINUX_DEFAULT=.*/& splash quiet/' /etc/default/grub" "GRUB cmdline splash"
         run_cmd "grub-mkconfig -o /boot/grub/grub.cfg" "Regenerate GRUB"
     fi
@@ -144,7 +92,7 @@ mkdir -p /usr/share/plymouth/themes/kalaos
 cat > /usr/share/plymouth/themes/kalaos/kalaos.plymouth <<'PLYMOUTH_EOF'
 [Plymouth Theme]
 Name=KalaOS
-Description=KalaOS Cat-Arch Boot Theme
+Description=KalaOS Boot Theme
 ModuleName=script
 
 [script]
@@ -152,10 +100,13 @@ ImageDir=/usr/share/plymouth/themes/kalaos
 ScriptFile=/usr/share/plymouth/themes/kalaos/kalaos.script
 PLYMOUTH_EOF
 
+# Copiar logo para plymouth
+run_cmd "magick '$LOGO_SRC' -resize 256x256 /usr/share/plymouth/themes/kalaos/kalaos-logo.png" "Plymouth logo"
+
 cat > /usr/share/plymouth/themes/kalaos/kalaos.script <<'PLYMOUTH_SCRIPT_EOF'
 # KalaOS Plymouth Theme Script
 
-# Colors
+# Colors (purple/red palette)
 purple = 0.486, 0.227, 0.929;  # #7C3AED
 red = 0.753, 0.224, 0.169;     # #C0392B
 dark = 0.102, 0.051, 0.122;    # #1A0D1F
@@ -166,7 +117,7 @@ Window.SetBackgroundTopColor(dark[0], dark[1], dark[2]);
 Window.SetBackgroundBottomColor(0.05, 0.02, 0.06);
 
 # Logo
-logo_image = Image("kalaos-cat-arch-256.png");
+logo_image = Image("kalaos-logo.png");
 logo_sprite = Sprite(logo_image);
 logo_sprite.SetX(Window.GetWidth() / 2 - logo_image.GetWidth() / 2);
 logo_sprite.SetY(Window.GetHeight() / 2 - logo_image.GetHeight() / 2 - 40);
@@ -220,30 +171,21 @@ Plymouth.SetBootProgressFunction(progress_callback);
 PLYMOUTH_SCRIPT_EOF
 
 # Crear imágenes simples para progress bar
-cat > /usr/share/plymouth/themes/kalaos/progress_box.png <<'EOF'
-# Placeholder - generate with imagemagick
-EOF
 magick -size 300x20 xc:"#241230" -stroke "#7C3AED" -strokewidth 2 -draw "rectangle 0,0 299,19" /usr/share/plymouth/themes/kalaos/progress_box.png 2>/dev/null || true
 magick -size 292x12 xc:"#7C3AED" /usr/share/plymouth/themes/kalaos/progress_bar.png 2>/dev/null || true
-
-# Copiar logo
-cp ${KALAOS_REPO:-$HOME/kalaos}/assets/logo/kalaos-cat-arch-256.png /usr/share/plymouth/themes/kalaos/ 2>/dev/null || true
 
 # Set plymouth theme
 run_cmd "plymouth-set-default-theme -R kalaos" "Set KalaOS plymouth theme"
 
-# ─── Fastfetch/Neofetch config con logo ───────────────────────
-log_step "Configuring fastfetch with KalaOS logo"
+# ─── Fastfetch config con logo ASCII ───────────────────────────
+log_step "Configuring fastfetch with KalaOS ASCII logo"
 
-mkdir -p ${KALAOS_REPO:-$HOME/kalaos}/dotfiles/fastfetch
-cat > ${KALAOS_REPO:-$HOME/kalaos}/dotfiles/fastfetch/config.jsonc <<'FASTFETCH_EOF'
+cat > "${KALAOS_REPO:-$HOME/kalaos}/dotfiles/fastfetch/config.jsonc" <<'FASTFETCH_EOF'
 {
     "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
     "logo": {
-        "source": "${KALAOS_REPO:-$HOME/kalaos}/assets/logo/kalaos-cat-arch.svg",
-        "type": "chafa",
-        "width": 40,
-        "height": 20,
+        "source": "${KALAOS_REPO:-$HOME/kalaos}/assets/logo/kalaos-ascii.txt",
+        "type": "cat",
         "color": "auto"
     },
     "display": {
@@ -259,7 +201,7 @@ cat > /usr/share/sddm/themes/kalaos/theme.conf <<'SDDM_EOF'
 [Theme]
 Name=KalaOS
 Author=KalaOS Team
-Description=KalaOS Cat-Arch SDDM Theme
+Description=KalaOS SDDM Theme
 Version=1.0
 Website=https://kalaos.example.com
 License=GPL-3.0-or-later
@@ -270,7 +212,7 @@ Font=SF Pro Display
 FontSize=24
 SDDM_EOF
 
-cp ${KALAOS_REPO:-$HOME/kalaos}/assets/logo/kalaos-cat-arch-512.png /usr/share/sddm/themes/kalaos/background.png 2>/dev/null || true
+run_cmd "magick '$LOGO_SRC' -resize 1920x1080 /usr/share/sddm/themes/kalaos/background.png" "SDDM background"
 
 # ─── Actualizar icon cache ────────────────────────────────────
 run_cmd "gtk-update-icon-cache -f /usr/share/icons/hicolor" "Update icon cache"
