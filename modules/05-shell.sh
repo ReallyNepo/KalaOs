@@ -32,9 +32,13 @@ log_step "Configuring Ghostty with IDE-like syntax highlighting"
 
 run_cmd "mkdir -p \$HOME/.config/ghostty" "Ghostty config dir"
 
+# Ensure dotfiles dir exists (for stow)
+DOTFILES_DIR="${SCRIPT_DIR:-$HOME/kalaos}/dotfiles"
+run_cmd "mkdir -p $DOTFILES_DIR/ghostty" "Ghostty dotfiles dir"
+
 # El tema custom kalaos-purple-red se genera en 07-theming.sh
 # Aquí creamos la base con soporte para syntax highlighting
-cat > ${KALAOS_REPO:-$HOME/kalaos}/dotfiles/ghostty/config <<'GHOSTTY_EOF'
+cat > $DOTFILES_DIR/ghostty/config <<'GHOSTTY_EOF'
 # KalaOS Ghostty Config - IDE-like syntax highlighting
 # Tema se carga desde: ~/.config/ghostty/themes/kalaos-purple-red.conf
 
