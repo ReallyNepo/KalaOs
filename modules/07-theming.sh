@@ -20,7 +20,7 @@ aur_install aether-gtk
 
 # ─── Colores base KalaOS (morado/rojo) ─────────────────────────
 # Paleta base morado/rojo para cuando no hay wallpaper
-cat > /home/jairo/kalaos/assets/theme/kalaos-palette.json <<'PALETTE_EOF'
+cat > ${KALAOS_REPO:-$HOME/kalaos}/assets/theme/kalaos-palette.json <<'PALETTE_EOF'
 {
   "name": "KalaOS Purple-Red",
   "background": "#1a0d1f",
@@ -54,7 +54,7 @@ cat > /home/jairo/kalaos/assets/theme/kalaos-palette.json <<'PALETTE_EOF'
 PALETTE_EOF
 
 # ─── Generador de temas desde wallpaper ────────────────────────
-cat > /home/jairo/kalaos/modules/generate-theme.sh <<'GEN_THEME_EOF'
+cat > ${KALAOS_REPO:-$HOME/kalaos}/modules/generate-theme.sh <<'GEN_THEME_EOF'
 #!/usr/bin/env bash
 # Genera temas para todos los componentes desde un wallpaper
 # Uso: generate-theme.sh /ruta/a/wallpaper.jpg
@@ -304,10 +304,10 @@ fi
 echo "Tema aplicado: $ACCENT_PURPLE / $ACCENT_RED sobre $BG"
 GEN_THEME_EOF
 
-chmod +x /home/jairo/kalaos/modules/generate-theme.sh
+chmod +x ${KALAOS_REPO:-$HOME/kalaos}/modules/generate-theme.sh
 
 # ─── Script kala wallpaper (integración CLI) ───────────────────
-cat > /home/jairo/kalaos/dotfiles/kala/kala-wallpaper <<'KALA_WALL_EOF'
+cat > ${KALAOS_REPO:-$HOME/kalaos}/dotfiles/kala/kala-wallpaper <<'KALA_WALL_EOF'
 #!/usr/bin/env fish
 # kala wallpaper - Setea wallpaper y regenera tema completo
 
@@ -325,7 +325,7 @@ function kala_wallpaper --description 'Set wallpaper and regenerate system theme
     end
 
     # Ejecutar generador de temas
-    /home/jairo/kalaos/modules/generate-theme.sh "$wallpaper"
+    ${KALAOS_REPO:-$HOME/kalaos}/modules/generate-theme.sh "$wallpaper"
 
     # Recargar waybar
     pkill -USR2 waybar 2>/dev/null || true
@@ -338,9 +338,9 @@ function kala_wallpaper --description 'Set wallpaper and regenerate system theme
 end
 KALA_WALL_EOF
 
-chmod +x /home/jairo/kalaos/dotfiles/kala/kala-wallpaper
+chmod +x ${KALAOS_REPO:-$HOME/kalaos}/dotfiles/kala/kala-wallpaper
 
 # ─── Aplicar tema base inicial ────────────────────────────────
-/home/jairo/kalaos/modules/generate-theme.sh
+${KALAOS_REPO:-$HOME/kalaos}/modules/generate-theme.sh
 
 log_ok "Theming module completed"

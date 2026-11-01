@@ -87,7 +87,7 @@ power_menu_selected_foreground = "#1a0d1f"
 TUIGREET_CONFIG_EOF
 
 # ─── Generar tema tuigreet dinámico desde palette ──────────────
-cat > /home/jairo/kalaos/modules/generate-tuigreet-theme.sh <<'TUI_THEME_GEN_EOF'
+cat > ${KALAOS_REPO:-$HOME/kalaos}/modules/generate-tuigreet-theme.sh <<'TUI_THEME_GEN_EOF'
 #!/usr/bin/env bash
 # Genera tuigreet theme desde palette actual
 
@@ -97,7 +97,7 @@ THEME_DIR="$HOME/.config/kalaos/theme"
 PALETTE_FILE="$THEME_DIR/current.json"
 
 if [[ ! -f "$PALETTE_FILE" ]]; then
-    PALETTE_FILE="/home/jairo/kalaos/assets/theme/kalaos-palette.json"
+    PALETTE_FILE="${KALAOS_REPO:-$HOME/kalaos}/assets/theme/kalaos-palette.json"
 fi
 
 BG=$(jq -r '.background' "$PALETTE_FILE")
@@ -143,7 +143,7 @@ power_menu_selected_foreground = "$BG"
 EOF
 TUI_THEME_GEN_EOF
 
-chmod +x /home/jairo/kalaos/modules/generate-tuigreet-theme.sh
+chmod +x ${KALAOS_REPO:-$HOME/kalaos}/modules/generate-tuigreet-theme.sh
 
 # ─── Usuario greeter ───────────────────────────────────────────
 run_cmd "id -u greeter &>/dev/null || useradd -r -s /bin/false -d /var/lib/greetd greeter" "Create greeter user"

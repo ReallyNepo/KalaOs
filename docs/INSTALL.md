@@ -85,7 +85,7 @@ sudo mkinitcpio -p kalaos
 # Regenerar tema
 kala wallpaper ~/Pictures/wallpaper.jpg
 # o
-/home/jairo/kalaos/modules/generate-theme.sh
+${KALAOS_REPO:-$HOME/kalaos}/modules/generate-theme.sh
 ```
 
 ### Fish no es shell por defecto

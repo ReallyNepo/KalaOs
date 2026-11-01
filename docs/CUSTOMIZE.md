@@ -30,7 +30,7 @@ El sistema usa `matugen`/`wallust` para extraer colores del wallpaper y generar 
 kala wallpaper ~/Pictures/gaming.jpg
 
 # O manualmente
-/home/jairo/kalaos/modules/generate-theme.sh ~/Pictures/gaming.jpg
+${KALAOS_REPO:-$HOME/kalaos}/modules/generate-theme.sh ~/Pictures/gaming.jpg
 ```
 
 ## Personalizar Hyprland
@@ -134,7 +134,7 @@ end
 2. Aplica:
 ```bash
 cp ~/.config/kalaos/theme/mi-tema.json ~/.config/kalaos/theme/current.json
-/home/jairo/kalaos/modules/generate-theme.sh
+${KALAOS_REPO:-$HOME/kalaos}/modules/generate-theme.sh
 ```
 
 3. En `kalaos.conf`: `THEME_BASE="custom"`

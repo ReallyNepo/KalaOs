@@ -26,11 +26,11 @@ aur_install sf-pro-fonts sf-mono-fonts
 # ─── Pixel font para logo/UI (KalaPixel) ───────────────────────
 log_step "Creating KalaPixel pixel font"
 
-mkdir -p /home/jairo/kalaos/assets/fonts/KalaPixel
+mkdir -p ${KALAOS_REPO:-$HOME/kalaos}/assets/fonts/KalaPixel
 
 # Crear font bitmap simple para el logo (usando fontforge o bdf)
 # Por ahora creamos un placeholder - se reemplaza con font real
-cat > /home/jairo/kalaos/assets/fonts/KalaPixel/README.md <<'FONT_README_EOF'
+cat > ${KALAOS_REPO:-$HOME/kalaos}/assets/fonts/KalaPixel/README.md <<'FONT_README_EOF'
 # KalaPixel Font
 
 Fuente pixel art personalizada para KALAOS logo y elementos UI.

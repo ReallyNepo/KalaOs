@@ -93,7 +93,7 @@ show_help() {
 
 # Subcommand: install
 cmd_install() {
-    /home/jairo/kalaos/install.sh "$@"
+    ${KALAOS_REPO:-$HOME/kalaos}/install.sh "$@"
 }
 
 # Subcommand: update
@@ -101,7 +101,7 @@ cmd_update() {
     log_step "Updating system packages"
     pacman -Syu --noconfirm
     log_step "Re-applying KalaOS configs"
-    /home/jairo/kalaos/install.sh
+    ${KALAOS_REPO:-$HOME/kalaos}/install.sh
 }
 
 # Subcommand: theme
@@ -110,7 +110,7 @@ cmd_theme() {
     log_step "Switching theme to: $theme"
     # TODO: implement theme switching
     sed -i "s/^THEME_BASE=.*/THEME_BASE=\"$theme\"/" "$CONFIG_FILE"
-    /home/jairo/kalaos/modules/generate-theme.sh
+    ${KALAOS_REPO:-$HOME/kalaos}/modules/generate-theme.sh
     log_ok "Theme changed to $theme. Reload Waybar/Hyprland to apply."
 }
 
@@ -121,7 +121,7 @@ cmd_wallpaper() {
         log_error "Usage: kala wallpaper <path-to-image>"
         return 1
     fi
-    /home/jairo/kalaos/modules/generate-theme.sh "$wallpaper"
+    ${KALAOS_REPO:-$HOME/kalaos}/modules/generate-theme.sh "$wallpaper"
     pkill -USR2 waybar 2>/dev/null || true
     hyprctl reload 2>/dev/null || true
     log_ok "Wallpaper and theme updated"
@@ -161,7 +161,7 @@ cmd_kernel() {
         return 1
     fi
     sed -i "s/^KERNEL_VARIANT=.*/KERNEL_VARIANT=\"$variant\"/" "$CONFIG_FILE"
-    /home/jairo/kalaos/modules/01-kernel.sh
+    ${KALAOS_REPO:-$HOME/kalaos}/modules/01-kernel.sh
     log_ok "Kernel changed to $variant. Reboot to apply."
 }
 
@@ -169,7 +169,7 @@ cmd_kernel() {
 cmd_debloat() {
     local level="${1:-aggressive}"
     sed -i "s/^DEBLOAT_LEVEL=.*/DEBLOAT_LEVEL=\"$level\"/" "$CONFIG_FILE"
-    /home/jairo/kalaos/modules/11-debloat.sh
+    ${KALAOS_REPO:-$HOME/kalaos}/modules/11-debloat.sh
     log_ok "Debloat level set to $level"
 }
 
@@ -270,8 +270,8 @@ cmd_restore() {
 
 # Subcommand: logo
 cmd_logo() {
-    if command -v chafa &>/dev/null && [[ -f /home/jairo/kalaos/assets/logo/kalaos-cat-arch.png ]]; then
-        chafa --size 40x20 /home/jairo/kalaos/assets/logo/kalaos-cat-arch.png
+    if command -v chafa &>/dev/null && [[ -f ${KALAOS_REPO:-$HOME/kalaos}/assets/logo/kalaos-cat-arch.png ]]; then
+        chafa --size 40x20 ${KALAOS_REPO:-$HOME/kalaos}/assets/logo/kalaos-cat-arch.png
     else
         show_logo
     fi
@@ -282,8 +282,8 @@ cmd_version() {
     show_logo
     echo "Version: $KALA_VERSION"
     echo "Config: $CONFIG_FILE"
-    if [[ -d /home/jairo/kalaos/.git ]]; then
-        echo "Commit: $(cd /home/jairo/kalaos && git rev-parse --short HEAD 2>/dev/null || echo 'unknown')"
+    if [[ -d ${KALAOS_REPO:-$HOME/kalaos}/.git ]]; then
+        echo "Commit: $(cd ${KALAOS_REPO:-$HOME/kalaos} && git rev-parse --short HEAD 2>/dev/null || echo 'unknown')"
     fi
 }
 
@@ -348,8 +348,8 @@ chmod +x "$KALA_DIR/kala"
 log_step "Installing kala completions"
 
 # Fish completion
-mkdir -p /home/jairo/kalaos/dotfiles/fish/completions
-cat > /home/jairo/kalaos/dotfiles/fish/completions/kala.fish <<'KALA_FISH_COMP_EOF'
+mkdir -p ${KALAOS_REPO:-$HOME/kalaos}/dotfiles/fish/completions
+cat > ${KALAOS_REPO:-$HOME/kalaos}/dotfiles/fish/completions/kala.fish <<'KALA_FISH_COMP_EOF'
 # KalaOS CLI completions for fish
 complete -c kala -f -n '__fish_use_subcommand' -a 'install update theme wallpaper gaming kernel debloat config doctor backup restore logo version ai help'
 complete -c kala -n '__fish_seen_subcommand_from theme' -a 'purple-red cyan amber custom'
@@ -385,13 +385,13 @@ KALA_BASH_COMP_EOF
 # ─── Instalar AI Agent Wrappers ────────────────────────────────
 log_step "Installing AI Agent wrappers (kalaos-claude, kalaos-opencode)"
 
-run_cmd "cp /home/jairo/kalaos/dotfiles/kala/kalaos-claude $KALA_DIR/kalaos-claude" "Install kalaos-claude"
-run_cmd "cp /home/jairo/kalaos/dotfiles/kala/kalaos-opencode $KALA_DIR/kalaos-opencode" "Install kalaos-opencode"
+run_cmd "cp ${KALAOS_REPO:-$HOME/kalaos}/dotfiles/kala/kalaos-claude $KALA_DIR/kalaos-claude" "Install kalaos-claude"
+run_cmd "cp ${KALAOS_REPO:-$HOME/kalaos}/dotfiles/kala/kalaos-opencode $KALA_DIR/kalaos-opencode" "Install kalaos-opencode"
 run_cmd "chmod +x $KALA_DIR/kalaos-claude $KALA_DIR/kalaos-opencode" "Make AI wrappers executable"
 
 # ─── Instalar Skill KalaOS ──────────────────────────────────────
-run_cmd "cp /home/jairo/kalaos/dotfiles/kalaos-skill.md $KALA_CONFIG_DIR/kalaos-skill.md" "Install KalaOS Skill"
-run_cmd "cp /home/jairo/kalaos/dotfiles/kalaos-skill.md /home/jairo/kalaos/dotfiles/kalaos-skill.md" "Ensure skill in repo"
+run_cmd "cp ${KALAOS_REPO:-$HOME/kalaos}/dotfiles/kalaos-skill.md $KALA_CONFIG_DIR/kalaos-skill.md" "Install KalaOS Skill"
+run_cmd "cp ${KALAOS_REPO:-$HOME/kalaos}/dotfiles/kalaos-skill.md ${KALAOS_REPO:-$HOME/kalaos}/dotfiles/kalaos-skill.md" "Ensure skill in repo"
 
 # ─── Subcomandos kala para AI agents ────────────────────────────
 cat > "$KALA_LIB_DIR/kala-ai" <<'KALA_AI_EOF'

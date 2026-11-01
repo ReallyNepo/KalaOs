@@ -39,12 +39,12 @@ Variables clave:
 ## Estructura de Archivos Importantes
 ```
 /etc/kala/kalaos.conf              # Config principal
-/home/jairo/kalaos/kalaos.conf     # Repo config
+${KALAOS_REPO:-$HOME/kalaos}/kalaos.conf     # Repo config
 /etc/kala/                         # CLI libs
 /usr/local/bin/kala                # CLI principal
 /usr/local/lib/kala/               # CLI modules
-/home/jairo/kalaos/modules/        # 14 módulos instaladores (00-13)
-/home/jairo/kalaos/dotfiles/       # Configs versionados (stow)
+${KALAOS_REPO:-$HOME/kalaos}/modules/        # 14 módulos instaladores (00-13)
+${KALAOS_REPO:-$HOME/kalaos}/dotfiles/       # Configs versionados (stow)
 ```
 
 ## Logs y Diagnóstico Crítico
@@ -134,7 +134,7 @@ cat /proc/cmdline
 ### Waybar no muestra colores / tema roto
 ```bash
 # Regenerar tema desde wallpaper
-/home/jairo/kalaos/modules/generate-theme.sh
+${KALAOS_REPO:-$HOME/kalaos}/modules/generate-theme.sh
 # Recargar
 pkill -USR2 waybar
 hyprctl reload
@@ -182,12 +182,12 @@ fish -c "starship init fish | source"
 ```bash
 cat /etc/kala/kalaos.conf
 # o
-cat /home/jairo/kalaos/kalaos.conf
+cat ${KALAOS_REPO:-$HOME/kalaos}/kalaos.conf
 ```
 
 ### Ver módulos instalados
 ```bash
-ls /home/jairo/kalaos/modules/
+ls ${KALAOS_REPO:-$HOME/kalaos}/modules/
 ```
 
 ### Ver dotfiles deployados
@@ -200,7 +200,7 @@ ls ~/.config/rofi/
 
 ### Ejecutar smoke tests
 ```bash
-/home/jairo/kalaos/tests/smoke.sh
+${KALAOS_REPO:-$HOME/kalaos}/tests/smoke.sh
 ```
 
 ## Variables de Entorno Gaming

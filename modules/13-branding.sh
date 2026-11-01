@@ -14,10 +14,10 @@ pacman_install "${BRANDING_PKGS[@]}"
 # ─── Crear logo pixel-art cat-arch (SVG + PNGs) ───────────────
 log_step "Creating pixel-art cat-arch logo"
 
-mkdir -p /home/jairo/kalaos/assets/logo
+mkdir -p ${KALAOS_REPO:-$HOME/kalaos}/assets/logo
 
 # SVG vectorial del logo cat-arch (Arch triangle + cat ears)
-cat > /home/jairo/kalaos/assets/logo/kalaos-cat-arch.svg <<'SVG_EOF'
+cat > ${KALAOS_REPO:-$HOME/kalaos}/assets/logo/kalaos-cat-arch.svg <<'SVG_EOF'
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
   <!-- KalaOS Cat-Arch Logo - Pixel Art Style -->
@@ -96,19 +96,19 @@ SVG_EOF
 # Generar PNGs en múltiples resoluciones
 log_step "Generating PNG variants from SVG"
 for size in 16 32 48 64 128 256 512; do
-    magick /home/jairo/kalaos/assets/logo/kalaos-cat-arch.svg \
+    magick ${KALAOS_REPO:-$HOME/kalaos}/assets/logo/kalaos-cat-arch.svg \
            -resize ${size}x${size} \
-           /home/jairo/kalaos/assets/logo/kalaos-cat-arch-${size}.png 2>/dev/null || \
-    convert /home/jairo/kalaos/assets/logo/kalaos-cat-arch.svg \
+           ${KALAOS_REPO:-$HOME/kalaos}/assets/logo/kalaos-cat-arch-${size}.png 2>/dev/null || \
+    convert ${KALAOS_REPO:-$HOME/kalaos}/assets/logo/kalaos-cat-arch.svg \
             -resize ${size}x${size} \
-            /home/jairo/kalaos/assets/logo/kalaos-cat-arch-${size}.png 2>/dev/null || true
+            ${KALAOS_REPO:-$HOME/kalaos}/assets/logo/kalaos-cat-arch-${size}.png 2>/dev/null || true
 done
 
 # Instalar iconos en sistema
 run_cmd "mkdir -p /usr/share/icons/hicolor/{16x16,32x32,48x48,64x64,128x128,256x256,512x512}/apps" "Icon directories"
 for size in 16 32 48 64 128 256 512; do
-    if [[ -f /home/jairo/kalaos/assets/logo/kalaos-cat-arch-${size}.png ]]; then
-        run_cmd "cp /home/jairo/kalaos/assets/logo/kalaos-cat-arch-${size}.png /usr/share/icons/hicolor/${size}x${size}/apps/kalaos.png" "Install ${size}px icon"
+    if [[ -f ${KALAOS_REPO:-$HOME/kalaos}/assets/logo/kalaos-cat-arch-${size}.png ]]; then
+        run_cmd "cp ${KALAOS_REPO:-$HOME/kalaos}/assets/logo/kalaos-cat-arch-${size}.png /usr/share/icons/hicolor/${size}x${size}/apps/kalaos.png" "Install ${size}px icon"
     fi
 done
 
@@ -119,7 +119,7 @@ if [[ "$BOOTSPLASH" == true ]]; then
     # systemd-boot splash
     if [[ "$BOOTLOADER" == "systemd-boot" ]]; then
         run_cmd "mkdir -p /boot/splash" "Boot splash dir"
-        run_cmd "cp /home/jairo/kalaos/assets/logo/kalaos-cat-arch-256.png /boot/splash/kalaos.png" "Copy splash image"
+        run_cmd "cp ${KALAOS_REPO:-$HOME/kalaos}/assets/logo/kalaos-cat-arch-256.png /boot/splash/kalaos.png" "Copy splash image"
 
         # kernel cmdline ya tiene quiet splash en 01-kernel.sh
         # Agregar splash a entries
@@ -130,7 +130,7 @@ if [[ "$BOOTSPLASH" == true ]]; then
 
     # GRUB splash
     if [[ "$BOOTLOADER" == "grub" ]]; then
-        run_cmd "cp /home/jairo/kalaos/assets/logo/kalaos-cat-arch-256.png /boot/grub/kalaos.png" "GRUB splash"
+        run_cmd "cp ${KALAOS_REPO:-$HOME/kalaos}/assets/logo/kalaos-cat-arch-256.png /boot/grub/kalaos.png" "GRUB splash"
         run_cmd "sed -i 's/^GRUB_CMDLINE_LINUX_DEFAULT=.*/& splash quiet/' /etc/default/grub" "GRUB cmdline splash"
         run_cmd "grub-mkconfig -o /boot/grub/grub.cfg" "Regenerate GRUB"
     fi
@@ -227,7 +227,7 @@ magick -size 300x20 xc:"#241230" -stroke "#7C3AED" -strokewidth 2 -draw "rectang
 magick -size 292x12 xc:"#7C3AED" /usr/share/plymouth/themes/kalaos/progress_bar.png 2>/dev/null || true
 
 # Copiar logo
-cp /home/jairo/kalaos/assets/logo/kalaos-cat-arch-256.png /usr/share/plymouth/themes/kalaos/ 2>/dev/null || true
+cp ${KALAOS_REPO:-$HOME/kalaos}/assets/logo/kalaos-cat-arch-256.png /usr/share/plymouth/themes/kalaos/ 2>/dev/null || true
 
 # Set plymouth theme
 run_cmd "plymouth-set-default-theme -R kalaos" "Set KalaOS plymouth theme"
@@ -235,12 +235,12 @@ run_cmd "plymouth-set-default-theme -R kalaos" "Set KalaOS plymouth theme"
 # ─── Fastfetch/Neofetch config con logo ───────────────────────
 log_step "Configuring fastfetch with KalaOS logo"
 
-mkdir -p /home/jairo/kalaos/dotfiles/fastfetch
-cat > /home/jairo/kalaos/dotfiles/fastfetch/config.jsonc <<'FASTFETCH_EOF'
+mkdir -p ${KALAOS_REPO:-$HOME/kalaos}/dotfiles/fastfetch
+cat > ${KALAOS_REPO:-$HOME/kalaos}/dotfiles/fastfetch/config.jsonc <<'FASTFETCH_EOF'
 {
     "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
     "logo": {
-        "source": "/home/jairo/kalaos/assets/logo/kalaos-cat-arch.svg",
+        "source": "${KALAOS_REPO:-$HOME/kalaos}/assets/logo/kalaos-cat-arch.svg",
         "type": "chafa",
         "width": 40,
         "height": 20,
@@ -270,7 +270,7 @@ Font=SF Pro Display
 FontSize=24
 SDDM_EOF
 
-cp /home/jairo/kalaos/assets/logo/kalaos-cat-arch-512.png /usr/share/sddm/themes/kalaos/background.png 2>/dev/null || true
+cp ${KALAOS_REPO:-$HOME/kalaos}/assets/logo/kalaos-cat-arch-512.png /usr/share/sddm/themes/kalaos/background.png 2>/dev/null || true
 
 # ─── Actualizar icon cache ────────────────────────────────────
 run_cmd "gtk-update-icon-cache -f /usr/share/icons/hicolor" "Update icon cache"

@@ -35,7 +35,7 @@ stow_dotfiles swaync
 # ─── Waybar config base (colores dinámicos en 07-theming) ──────
 run_cmd "mkdir -p \$HOME/.config/waybar" "Waybar config dir"
 
-cat > /home/jairo/kalaos/dotfiles/waybar/config.jsonc <<'WAYBAR_CONFIG_EOF'
+cat > ${KALAOS_REPO:-$HOME/kalaos}/dotfiles/waybar/config.jsonc <<'WAYBAR_CONFIG_EOF'
 {
     "layer": "top",
     "position": "top",
@@ -119,7 +119,7 @@ cat > /home/jairo/kalaos/dotfiles/waybar/config.jsonc <<'WAYBAR_CONFIG_EOF'
 }
 WAYBAR_CONFIG_EOF
 
-cat > /home/jairo/kalaos/dotfiles/waybar/style.css <<'WAYBAR_STYLE_EOF'
+cat > ${KALAOS_REPO:-$HOME/kalaos}/dotfiles/waybar/style.css <<'WAYBAR_STYLE_EOF'
 /* KalaOS Waybar Style - Colors injected by theming module */
 @import "colors-waybar.css";
 
@@ -188,7 +188,7 @@ window#waybar {
 WAYBAR_STYLE_EOF
 
 # ─── Rofi config ──────────────────────────────────────────────
-cat > /home/jairo/kalaos/dotfiles/rofi/config.rasi <<'ROFI_CONFIG_EOF'
+cat > ${KALAOS_REPO:-$HOME/kalaos}/dotfiles/rofi/config.rasi <<'ROFI_CONFIG_EOF'
 /* KalaOS Rofi Config - Theme injected by theming module */
 @theme "kalaos-theme"
 
@@ -208,7 +208,7 @@ configuration {
 ROFI_CONFIG_EOF
 
 # ─── Wofi config ──────────────────────────────────────────────
-cat > /home/jairo/kalaos/dotfiles/wofi/config <<'WOFI_CONFIG_EOF'
+cat > ${KALAOS_REPO:-$HOME/kalaos}/dotfiles/wofi/config <<'WOFI_CONFIG_EOF'
 # KalaOS Wofi Config
 gtk_theme = kalaos-gtk
 font = SF Pro Display 11
@@ -218,7 +218,7 @@ icon_theme = kalaos-icons
 WOFI_CONFIG_EOF
 
 # ─── SwayNC config ────────────────────────────────────────────
-cat > /home/jairo/kalaos/dotfiles/swaync/config.json <<'SWAYNC_CONFIG_EOF'
+cat > ${KALAOS_REPO:-$HOME/kalaos}/dotfiles/swaync/config.json <<'SWAYNC_CONFIG_EOF'
 {
     "positionX": "right",
     "positionY": "top",

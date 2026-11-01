@@ -4,7 +4,7 @@
 
 set -euo pipefail
 
-SKILL_FILE="/home/jairo/kalaos/dotfiles/kalaos-skill.md"
+SKILL_FILE="${KALAOS_REPO:-$HOME/kalaos}/dotfiles/kalaos-skill.md"
 
 # Verificar que existe el skill
 if [[ ! -f "$SKILL_FILE" ]]; then
@@ -39,8 +39,8 @@ FLUJO DE TRABAJO:
 
 RECURSOS CLAVE:
 - Config principal: /etc/kala/kalaos.conf
-- Módulos: /home/jairo/kalaos/modules/00-13.sh
-- Dotfiles: /home/jairo/kalaos/dotfiles/
+- Módulos: ${KALAOS_REPO:-$HOME/kalaos}/modules/00-13.sh
+- Dotfiles: ${KALAOS_REPO:-$HOME/kalaos}/dotfiles/
 - Logs: journalctl -u <service>
 - Hyprland: hyprctl <command>
 - GPU: nvidia-smi / radeontop / intel_gpu_top

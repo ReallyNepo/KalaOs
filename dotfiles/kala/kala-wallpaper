@@ -15,7 +15,7 @@ function kala_wallpaper --description 'Set wallpaper and regenerate system theme
     end
 
     # Ejecutar generador de temas
-    /home/jairo/kalaos/modules/generate-theme.sh "$wallpaper"
+    ${KALAOS_REPO:-$HOME/kalaos}/modules/generate-theme.sh "$wallpaper"
 
     # Recargar waybar
     pkill -USR2 waybar 2>/dev/null || true

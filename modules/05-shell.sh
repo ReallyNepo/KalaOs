@@ -31,7 +31,7 @@ run_cmd "mkdir -p \$HOME/.config/ghostty" "Ghostty config dir"
 
 # El tema custom kalaos-purple-red se genera en 07-theming.sh
 # Aquí creamos la base con soporte para syntax highlighting
-cat > /home/jairo/kalaos/dotfiles/ghostty/config <<'GHOSTTY_EOF'
+cat > ${KALAOS_REPO:-$HOME/kalaos}/dotfiles/ghostty/config <<'GHOSTTY_EOF'
 # KalaOS Ghostty Config - IDE-like syntax highlighting
 # Tema se carga desde: ~/.config/ghostty/themes/kalaos-purple-red.conf
 
@@ -106,7 +106,7 @@ log_step "Configuring fish with autocomplete & correction"
 
 run_cmd "mkdir -p \$HOME/.config/fish/{functions,completions,conf.d}" "Fish config dirs"
 
-cat > /home/jairo/kalaos/dotfiles/fish/config.fish <<'FISH_EOF'
+cat > ${KALAOS_REPO:-$HOME/kalaos}/dotfiles/fish/config.fish <<'FISH_EOF'
 # KalaOS Fish Config - Autocomplete, correction, IDE-like experience
 
 # ─── Starship prompt ──────────────────────────────────────────
@@ -208,7 +208,7 @@ end
 FISH_EOF
 
 # ─── Fisher plugins ────────────────────────────────────────────
-cat > /home/jairo/kalaos/dotfiles/fish/fish_plugins <<'FISH_PLUGINS_EOF'
+cat > ${KALAOS_REPO:-$HOME/kalaos}/dotfiles/fish/fish_plugins <<'FISH_PLUGINS_EOF'
 # Fisher plugins for KalaOS
 jorgebucaran/fisher
 jorgebucaran/autopair.fish        # Auto-close brackets/quotes
@@ -220,7 +220,7 @@ FISH_PLUGINS_EOF
 # ─── Starship config (tema morado/rojo) ────────────────────────
 log_step "Configuring Starship prompt"
 
-cat > /home/jairo/kalaos/dotfiles/starship/starship.toml <<'STARSHIP_EOF'
+cat > ${KALAOS_REPO:-$HOME/kalaos}/dotfiles/starship/starship.toml <<'STARSHIP_EOF'
 # KalaOS Starship Config - Purple/Red theme
 format = """
 $username\
@@ -307,7 +307,7 @@ disabled = false
 STARSHIP_EOF
 
 # ─── Atuin config ──────────────────────────────────────────────
-cat > /home/jairo/kalaos/dotfiles/fish/conf.d/atuin.fish <<'ATUIN_EOF'
+cat > ${KALAOS_REPO:-$HOME/kalaos}/dotfiles/fish/conf.d/atuin.fish <<'ATUIN_EOF'
 # Atuin config
 set -g ATUIN_SEARCH_MODE fzf
 set -g ATUIN_STYLE compact

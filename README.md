@@ -145,7 +145,7 @@ kalaos/
 kala doctor
 
 # Regenerar tema
-/home/jairo/kalaos/modules/generate-theme.sh
+${KALAOS_REPO:-$HOME/kalaos}/modules/generate-theme.sh
 
 # Rebuild initramfs (NVIDIA)
 sudo mkinitcpio -p kalaos
