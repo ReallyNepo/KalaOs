@@ -54,7 +54,7 @@ case "$GPU_VENDOR" in
             libva-mesa-driver
             mesa-vdpau
             rocm-opencl-runtime
-            amdgpu-top
+            radeontop
         )
         ;;
     intel)
