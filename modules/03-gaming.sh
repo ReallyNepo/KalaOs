@@ -59,7 +59,7 @@ GAMING_PKGS+=(
     lib32-gamemode
     cpupower
     tuned
-    tuned-ppd
+    # tuned-ppd conflicts with power-profiles-daemon; omit
 )
 
 pacman_install "${GAMING_PKGS[@]}"
