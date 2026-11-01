@@ -39,10 +39,6 @@ done
 # Actualizar mirrors y base de datos
 run_cmd "pacman -Sy" "Sync package databases"
 
-# Refresh mirrors to avoid 404s on CachyOS packages
-run_cmd "reflector --country Spain,France,Germany --protocol https --latest 20 --sort rate --save /etc/pacman.d/mirrorlist" "Refresh mirrors with reflector"
-run_cmd "pacman -Sy" "Sync package databases after mirror refresh"
-
 # ─── Paquetes base esenciales ──────────────────────────────────
 log_step "Installing base packages"
 
@@ -79,6 +75,10 @@ BASE_PKGS=(
 )
 
 pacman_install "${BASE_PKGS[@]}"
+
+# Refresh mirrors to avoid 404s on CachyOS packages (now reflector is installed)
+run_cmd "reflector --country Spain,France,Germany --protocol https --latest 20 --sort rate --save /etc/pacman.d/mirrorlist" "Refresh mirrors with reflector"
+run_cmd "pacman -Sy" "Sync package databases after mirror refresh"
 
 # ─── Servicios base ────────────────────────────────────────────
 log_step "Enabling base services"
