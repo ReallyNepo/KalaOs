@@ -20,6 +20,10 @@ case "$KERNEL_VARIANT" in
         ;;
 esac
 
+# ─── Remove conflicting DKMS packages tied to old kernel version ───
+log_step "Removing old DKMS packages conflicting with new kernel"
+run_cmd "pacman -Rdd --noconfirm linux-cachyos-nvidia-open linux-cachyos-zfs 2>/dev/null || true" "Remove old DKMS packages"
+
 # ─── Instalar kernel y headers ─────────────────────────────────
 pacman_install "${KERNEL_PKGS[@]}"
 
