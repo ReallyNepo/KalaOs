@@ -5,15 +5,10 @@ log_step "Configuring Greetd + tuigreet login"
 
 LOGIN_PKGS=(
     greetd
-)
-
-AUR_LOGIN_PKGS=(
     tuigreet
-    greetd-tuigreet
 )
 
 pacman_install "${LOGIN_PKGS[@]}"
-aur_install "${AUR_LOGIN_PKGS[@]}"
 
 # ─── Greetd config ────────────────────────────────────────────
 log_step "Configuring greetd with tuigreet"
