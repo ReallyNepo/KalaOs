@@ -3,6 +3,26 @@
 
 [[ "$ENABLE_GAMING" == true ]] || { log_warn "Gaming disabled in config, skipping"; exit 0; }
 
+# ─── Enable Chaotic-AUR (deferred from 00-base to avoid mesa-tkg conflicts) ──────
+log_step "Enabling Chaotic-AUR for gaming binaries"
+for repo in "${CUSTOM_REPOS[@]}"; do
+    case "$repo" in
+        chaotic-aur)
+            if ! grep -q "\[chaotic-aur\]" /etc/pacman.conf; then
+                run_cmd "pacman-key --recv-key 3056513887B78AEB --keyserver keyserver.ubuntu.com" "Import chaotic-aur key"
+                run_cmd "pacman-key --lsign-key 3056513887B78AEB" "Sign chaotic-aur key"
+                run_cmd "pacman -U --noconfirm 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst' 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'" "Install chaotic-aur keyring"
+                run_cmd "cat >> /etc/pacman.conf <<'EOF'
+
+[chaotic-aur]
+Include = /etc/pacman.d/chaotic-mirrorlist
+EOF" "Adding chaotic-aur repository"
+            fi
+            ;;
+    esac
+done
+run_cmd "pacman -Sy" "Sync package databases with chaotic-aur"
+
 log_step "Installing gaming stack"
 
 # ─── Steam + Proton-GE + Wine-GE ───────────────────────────────
