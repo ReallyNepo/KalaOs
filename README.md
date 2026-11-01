@@ -12,7 +12,7 @@
 KalaOS es una distribución Linux gaming optimizada basada en **kernel CachyOS** con **Hyprland**, **Ghostty**.
 
 ```
-@@@                                             @@@
+                @@@                                             @@@
                @@@@@@                  @                    @@@@@@
                 @@@@@@@@               @ @               @@@@@@@@
                @@@@@@@ @@@@               @          @@@@@ @@@@@@@
