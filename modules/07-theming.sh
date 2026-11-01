@@ -20,6 +20,7 @@ aur_install aether-gtk
 
 # ─── Colores base KalaOS (morado/rojo) ─────────────────────────
 # Paleta base morado/rojo para cuando no hay wallpaper
+run_cmd "mkdir -p ${SCRIPT_DIR:-$HOME/kalaos}/assets/theme" "Assets theme dir"
 cat > ${KALAOS_REPO:-$HOME/kalaos}/assets/theme/kalaos-palette.json <<'PALETTE_EOF'
 {
   "name": "KalaOS Purple-Red",
@@ -54,6 +55,7 @@ cat > ${KALAOS_REPO:-$HOME/kalaos}/assets/theme/kalaos-palette.json <<'PALETTE_E
 PALETTE_EOF
 
 # ─── Generador de temas desde wallpaper ────────────────────────
+run_cmd "mkdir -p ${SCRIPT_DIR:-$HOME/kalaos}/modules" "Modules dir"
 cat > ${KALAOS_REPO:-$HOME/kalaos}/modules/generate-theme.sh <<'GEN_THEME_EOF'
 #!/usr/bin/env bash
 # Genera temas para todos los componentes desde un wallpaper
@@ -307,6 +309,7 @@ GEN_THEME_EOF
 chmod +x ${KALAOS_REPO:-$HOME/kalaos}/modules/generate-theme.sh
 
 # ─── Script kala wallpaper (integración CLI) ───────────────────
+run_cmd "mkdir -p ${SCRIPT_DIR:-$HOME/kalaos}/dotfiles/kala" "Kala dotfiles dir"
 cat > ${KALAOS_REPO:-$HOME/kalaos}/dotfiles/kala/kala-wallpaper <<'KALA_WALL_EOF'
 #!/usr/bin/env fish
 # kala wallpaper - Setea wallpaper y regenera tema completo

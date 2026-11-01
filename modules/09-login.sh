@@ -87,6 +87,7 @@ power_menu_selected_foreground = "#1a0d1f"
 TUIGREET_CONFIG_EOF
 
 # ─── Generar tema tuigreet dinámico desde palette ──────────────
+run_cmd "mkdir -p ${SCRIPT_DIR:-$HOME/kalaos}/modules" "Modules dir"
 cat > ${KALAOS_REPO:-$HOME/kalaos}/modules/generate-tuigreet-theme.sh <<'TUI_THEME_GEN_EOF'
 #!/usr/bin/env bash
 # Genera tuigreet theme desde palette actual

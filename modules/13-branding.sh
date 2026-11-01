@@ -32,6 +32,7 @@ done
 # ─── Generar ASCII para terminal (fastfetch) ──────────────────────
 log_step "Generating ASCII logo for terminal"
 
+run_cmd "mkdir -p ${SCRIPT_DIR:-$HOME/kalaos}/assets/logo" "Assets logo dir"
 mkdir -p "${KALAOS_REPO:-$HOME/kalaos}/dotfiles/fastfetch"
 chafa --format=symbols --symbols=block --colors=256 --size=60x30 "$LOGO_SRC" > "${KALAOS_REPO:-$HOME/kalaos}/assets/logo/kalaos-ascii.txt" 2>/dev/null || {
     # Fallback si chafa falla
