@@ -16,12 +16,12 @@ FONTS_PKGS=(
 
 pacman_install "${FONTS_PKGS[@]}"
 
-# ─── macOS San Francisco fonts (requiere descarga manual o AUR) ───
-log_step "Setting up macOS San Francisco fonts"
+# ─── macOS San Francisco fonts (propietarias, no en AUR) ───
+log_step "Setting up Apple-style fonts (Inter/Roboto as alternatives)"
 
-# SF Pro se instala via AUR (sf-pro-fonts) o descarga manual
-# Usamos AUR para automatizar
-aur_install ttf-san-francisco-pro ttf-san-francisco-mono
+# SF Pro/Monon no están en AUR (propietarias de Apple)
+# Usamos alternativas libres de los repos oficiales
+pacman_install ttf-inter ttf-roboto-mono
 
 # ─── Pixel font para logo/UI (KalaPixel) ───────────────────────
 log_step "Creating KalaPixel pixel font"
