@@ -9,7 +9,7 @@
 
 > **Arch-based. Cat-powered. Game-ready.**
 
-KalaOS es una distribución Linux gaming optimizada basada en **kernel CachyOS** con **Hyprland**, **Ghostty**, y un logo **ASCII art** basado en Arch con orejas de gato (rojo), con paleta rojo/morado personalizable.
+KalaOS es una distribución Linux gaming optimizada basada en **kernel CachyOS** con **Hyprland**, **Ghostty**.
 
 ```
 \e[31m
@@ -214,7 +214,7 @@ journalctl -u greetd -f
 
 > **Arch-based. Cat-powered. Game-ready.**
 
-KalaOS is an optimized gaming Linux distribution based on **CachyOS kernel** with **Hyprland**, **Ghostty**, and an **ASCII art logo** based on Arch Linux with cat ears and whiskers (red), with a customizable red/purple palette.
+KalaOS is an optimized gaming Linux distribution based on **CachyOS kernel** with **Hyprland**, **Ghostty**.
 
 ### ✨ Features
 
