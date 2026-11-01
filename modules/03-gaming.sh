@@ -29,7 +29,7 @@ log_step "Installing gaming stack"
 GAMING_PKGS=(
     steam
     proton-ge-custom          # AUR: GE-Proton latest
-    wine-ge-custom            # AUR: Wine-GE latest
+    wine-ge                   # AUR: Wine-GE latest
     lutris
     heroic-games-launcher     # AUR: Epic/GOG launcher
     bottles                   # Flatpak preferred, pero AUR existe
