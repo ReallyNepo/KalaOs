@@ -51,6 +51,9 @@ run_cmd "pacman -Rdd --noconfirm jack2 2>/dev/null || true" "Remove jack2 (confl
 # Remove mesa-tkg variants (conflicts with standard mesa)
 run_cmd "pacman -Rdd --noconfirm mesa-tkg mesa-tkg-git 2>/dev/null || true" "Remove mesa-tkg variants (conflicts with standard mesa)"
 
+# Install standard mesa from extra first to claim slot before chaotic-aur pulls mesa-tkg-git
+run_cmd "pacman -S --needed --noconfirm extra/mesa" "Install standard mesa from extra repo"
+
 BASE_PKGS=(
     # Sistema base
     base base-devel linux-firmware linux-firmware-amd linux-firmware-ti
