@@ -3,6 +3,9 @@
 
 log_step "Configuring Greetd + tuigreet login"
 
+# Ensure package database is fresh (tuigreet is relatively new in extra repo)
+run_cmd "pacman -Sy" "Sync package databases"
+
 LOGIN_PKGS=(
     greetd
     tuigreet
