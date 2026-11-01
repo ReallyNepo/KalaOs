@@ -21,7 +21,7 @@ log_step "Setting up Apple-style fonts (Inter/Roboto as alternatives)"
 
 # SF Pro/Monon no están en AUR (propietarias de Apple)
 # Usamos alternativas libres de los repos oficiales
-pacman_install ttf-inter ttf-roboto-mono
+pacman_install inter-font ttf-roboto-mono
 
 # ─── Pixel font para logo/UI (KalaPixel) ───────────────────────
 log_step "Creating KalaPixel pixel font"
