@@ -39,12 +39,19 @@ done
 # Actualizar mirrors y base de datos
 run_cmd "pacman -Sy" "Sync package databases"
 
+# Refresh mirrors to avoid 404s on CachyOS packages
+run_cmd "reflector --country Spain,France,Germany --protocol https --latest 20 --sort rate --save /etc/pacman.d/mirrorlist" "Refresh mirrors with reflector"
+run_cmd "pacman -Sy" "Sync package databases after mirror refresh"
+
 # ─── Paquetes base esenciales ──────────────────────────────────
 log_step "Installing base packages"
 
+# Remove conflicting firmware packages first (linux-firmware-other provides same files)
+run_cmd "pacman -Rdd --noconfirm linux-firmware-other 2>/dev/null || true" "Remove conflicting linux-firmware-other"
+
 BASE_PKGS=(
     # Sistema base
-    base base-devel linux-firmware
+    base base-devel linux-firmware linux-firmware-amd linux-firmware-ti
     # Gestión paquetes AUR
     yay
     # Utilidades sistema
