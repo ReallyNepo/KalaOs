@@ -11,7 +11,8 @@ CLI_PKGS=(
 )
 
 pacman_install "${CLI_PKGS[@]}"
-aur_install claude-code opencode
+# claude-code & opencode are proprietary; installed via repo's wrapper scripts (lines 388-389)
+# aur_install claude-code opencode
 
 # ─── Estructura CLI kala ──────────────────────────────────────
 log_step "Creating kala CLI structure"
