@@ -48,6 +48,9 @@ run_cmd "pacman -Rdd --noconfirm linux-firmware-other 2>/dev/null || true" "Remo
 # Remove jack2 (conflicts with pipewire-jack which provides JACK)
 run_cmd "pacman -Rdd --noconfirm jack2 2>/dev/null || true" "Remove jack2 (conflicts with pipewire-jack)"
 
+# Remove mesa-tkg (conflicts with standard mesa)
+run_cmd "pacman -Rdd --noconfirm mesa-tkg 2>/dev/null || true" "Remove mesa-tkg (conflicts with standard mesa)"
+
 BASE_PKGS=(
     # Sistema base
     base base-devel linux-firmware linux-firmware-amd linux-firmware-ti
