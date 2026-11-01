@@ -59,7 +59,12 @@ run_cmd() {
 pacman_install() {
     local pkgs=("$@")
     [[ ${#pkgs[@]} -eq 0 ]] && return 0
-    run_cmd "pacman -S --needed --noconfirm ${pkgs[*]}" "Installing: ${pkgs[*]}"
+    local to_install=()
+    for pkg in "${pkgs[@]}"; do
+        pacman -Q "$pkg" &>/dev/null || to_install+=("$pkg")
+    done
+    [[ ${#to_install[@]} -eq 0 ]] && return 0
+    run_cmd "pacman -S --needed --noconfirm ${to_install[*]}" "Installing: ${to_install[*]}"
 }
 
 pacman_remove() {
