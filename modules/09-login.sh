@@ -1,73 +1,57 @@
 #!/usr/bin/env bash
-# Module: 09-login - Autologin via agetty (no greeter, zero deps)
+# Module: 09-login - LightDM (GTK display manager, official repos)
 
-log_step "Configuring TTY autologin (agetty)"
+log_step "Configuring LightDM login"
 
-# Get target user (default: first non-root user or $AUTOLOGIN_USER)
-TARGET_USER="${AUTOLOGIN_USER:-}"
-if [[ -z "$TARGET_USER" ]]; then
-    TARGET_USER=$(awk -F: '$3 >= 1000 && $1 != "nobody" {print $1; exit}' /etc/passwd)
+pacman_install lightdm lightdm-gtk-greeter lightdm-gtk-greeter-settings
+
+# ─── LightDM config ──────────────────────────────────────────────
+run_cmd "mkdir -p /etc/lightdm" "LightDM config dir"
+
+cat > /etc/lightdm/lightdm.conf <<'LIGHTDM_EOF'
+[LightDM]
+run-directory=/run/lightdm
+
+[Seat:*]
+greeter-session=lightdm-gtk-greeter
+autologin-user-timeout=0
+user-session=hyprland
+
+[VNCServer]
+enabled=false
+LIGHTDM_EOF
+
+# ─── GTK Greeter config (KalaOS theme) ───────────────────────────
+cat > /etc/lightdm/lightdm-gtk-greeter.conf <<'GREETER_EOF'
+[greeter]
+# Theme
+theme-name = Adwaita-dark
+icon-theme-name = Papirus-Dark
+font-name = Cantarell 11
+background = /usr/share/backgrounds/kalaos-bg.jpg
+
+# UI
+show-language-selector = true
+show-indicators = ~session;~layout;~a11y;~power
+show-clock = true
+clock-format = %H:%M
+keyboard = onboard
+
+# Window
+position = 50%,center 50%,center
+panel-position = bottom
+default-user-image = #avatar-default
+user-image = #avatar-default
+EOF
+
+# ─── Ensure background exists ────────────────────────────────────
+run_cmd "mkdir -p /usr/share/backgrounds" "Backgrounds dir"
+# Will be set by theming module; fallback if missing
+if [[ ! -f /usr/share/backgrounds/kalaos-bg.jpg ]]; then
+    run_cmd "cp ${SCRIPT_DIR:-$HOME/kalaos}/assets/logo/kalaos-logo.png /usr/share/backgrounds/kalaos-bg.jpg 2>/dev/null || true" "Fallback background"
 fi
 
-if [[ -z "$TARGET_USER" ]]; then
-    log_warn "No user found for autologin; skipping login config"
-    log_ok "Login module completed (no autologin)"
-    exit 0
-fi
+# ─── Enable LightDM ──────────────────────────────────────────────
+enable_service lightdm
 
-log_step "Setting up autologin for user: $TARGET_USER"
-
-# ─── Configure agetty autologin on tty1 ──────────────────────────
-run_cmd "mkdir -p /etc/systemd/system/getty@tty1.service.d" "getty drop-in dir"
-
-cat > /etc/systemd/system/getty@tty1.service.d/autologin.conf <<AUTOLOGIN_EOF
-[Service]
-ExecStart=
-ExecStart=-/usr/bin/agetty --autologin $TARGET_USER --noclear %I \$TERM
-Type=idle
-AUTOLOGIN_EOF
-
-# ─── Auto-start Hyprland on tty1 login ───────────────────────────
-run_cmd "mkdir -p /home/$TARGET_USER/.config/hypr" "Hypr config dir"
-run_cmd "chown -R $TARGET_USER:$TARGET_USER /home/$TARGET_USER/.config/hypr" "Fix hypr perms"
-
-# Add auto-start to .bash_profile (runs on TTY login)
-BASH_PROFILE="/home/$TARGET_USER/.bash_profile"
-if [[ ! -f "$BASH_PROFILE" ]] || ! grep -q "Hyprland" "$BASH_PROFILE"; then
-    cat >> "$BASH_PROFILE" <<'BASH_EOF'
-
-# Auto-start Hyprland on tty1
-if [[ -z "$DISPLAY" && -z "$WAYLAND_DISPLAY" && "$(tty)" = "/dev/tty1" ]]; then
-    exec Hyprland
-fi
-BASH_EOF
-    run_cmd "chown $TARGET_USER:$TARGET_USER $BASH_PROFILE" "Fix bash_profile perms"
-fi
-
-# ─── Also add to .zprofile for zsh users ─────────────────────────
-ZSH_PROFILE="/home/$TARGET_USER/.zprofile"
-if [[ ! -f "$ZSH_PROFILE" ]] || ! grep -q "Hyprland" "$ZSH_PROFILE"; then
-    cat > "$ZSH_PROFILE" <<'ZSH_EOF'
-# Auto-start Hyprland on tty1
-if [[ -z "$DISPLAY" && -z "$WAYLAND_DISPLAY" && "$(tty)" = "/dev/tty1" ]]; then
-    exec Hyprland
-fi
-ZSH_EOF
-    run_cmd "chown $TARGET_USER:$TARGET_USER $ZSH_PROFILE" "Fix zprofile perms"
-fi
-
-# ─── Fish shell config ───────────────────────────────────────────
-FISH_CONFIG="/home/$TARGET_USER/.config/fish/config.fish"
-run_cmd "mkdir -p $(dirname "$FISH_CONFIG")" "Fish config dir"
-if [[ ! -f "$FISH_CONFIG" ]] || ! grep -q "Hyprland" "$FISH_CONFIG"; then
-    cat >> "$FISH_CONFIG" <<'FISH_EOF'
-
-# Auto-start Hyprland on tty1
-if test -z "$DISPLAY"; and test -z "$WAYLAND_DISPLAY"; and test (tty) = "/dev/tty1"
-    exec Hyprland
-end
-FISH_EOF
-    run_cmd "chown -R $TARGET_USER:$TARGET_USER $(dirname "$FISH_CONFIG")" "Fix fish perms"
-fi
-
-log_ok "Login module completed (agetty autologin → Hyprland on tty1)"
+log_ok "Login module completed (LightDM + GTK greeter)"
