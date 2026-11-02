@@ -392,7 +392,6 @@ run_cmd "chmod +x $KALA_DIR/kalaos-claude $KALA_DIR/kalaos-opencode" "Make AI wr
 
 # ─── Instalar Skill KalaOS ──────────────────────────────────────
 run_cmd "cp ${SCRIPT_DIR:-$HOME/kalaos}/dotfiles/kalaos-skill.md $KALA_CONFIG_DIR/kalaos-skill.md" "Install KalaOS Skill"
-run_cmd "cp ${SCRIPT_DIR:-$HOME/kalaos}/dotfiles/kalaos-skill.md ${SCRIPT_DIR:-$HOME/kalaos}/dotfiles/kalaos-skill.md" "Ensure skill in repo"
 
 # ─── Subcomandos kala para AI agents ────────────────────────────
 cat > "$KALA_LIB_DIR/kala-ai" <<'KALA_AI_EOF'
