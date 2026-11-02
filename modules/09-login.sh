@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-# Module: 09-login - Greetd + wlgreet (Wayland) + tema KalaOS
+# Module: 09-login - Greetd + nwg-greeter (GTK) + tema KalaOS
 
-log_step "Configuring Greetd + wlgreet login"
+log_step "Configuring Greetd + nwg-greeter login"
 
-pacman_install greetd wlgreet
+pacman_install greetd nwg-greeter
 
 # ─── Greetd config ────────────────────────────────────────────
-log_step "Configuring greetd with wlgreet"
+log_step "Configuring greetd with nwg-greeter"
 
 run_cmd "mkdir -p /etc/greetd" "Greetd config dir"
 
@@ -15,11 +15,11 @@ cat > /etc/greetd/config.toml <<'GREETD_CONFIG_EOF'
 vt = 1
 
 [default_session]
-command = "wlgreet --cmd 'hyprland'"
+command = "nwg-greeter --cmd 'hyprland'"
 user = "greeter"
 
 [initial_session]
-command = "wlgreet --cmd 'hyprland'"
+command = "nwg-greeter --cmd 'hyprland'"
 user = "greeter"
 
 [greetd]
