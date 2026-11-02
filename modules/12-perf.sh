@@ -126,6 +126,8 @@ pacman_install tuned
 enable_service tuned
 # Wait for tuned to start, then apply profile
 run_cmd "systemctl start tuned" "Start tuned daemon"
+# Wait for tuned daemon to be ready
+run_cmd "for i in {1..10}; do tuned-adm list 2>/dev/null | grep -q kalaos-gaming && break || sleep 1; done" "Wait for tuned to load profile"
 run_cmd "tuned-adm profile kalaos-gaming" "Apply tuned gaming profile"
 
 # ─── Preload (app startup) ────────────────────────────────────
