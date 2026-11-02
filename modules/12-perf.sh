@@ -122,7 +122,10 @@ net.ipv4.tcp_congestion_control=bbr
 kernel.sched_autogroup_enabled=0
 EOF" "Create tuned gaming profile"
 
+pacman_install tuned
 enable_service tuned
+# Wait for tuned to start, then apply profile
+run_cmd "systemctl start tuned" "Start tuned daemon"
 run_cmd "tuned-adm profile kalaos-gaming" "Apply tuned gaming profile"
 
 # ─── Preload (app startup) ────────────────────────────────────
