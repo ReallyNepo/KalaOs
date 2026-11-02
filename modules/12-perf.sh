@@ -34,24 +34,6 @@ run_cmd "cat > /etc/default/cpupower <<EOF
 governor='$CPU_GOVERNOR'
 EOF" "Set cpupower governor"
 
-# systemd service para governor persistente
-run_cmd "cat > /etc/systemd/system/cpupower-governor.service <<'EOF'
-[Unit]
-Description=Set CPU governor
-After=multi-user.target
-
-[Service]
-Type=oneshot
-ExecStart=/usr/bin/cpupower frequency-set -g $CPU_GOVERNOR
-RemainAfterExit=yes
-
-[Install]
-WantedBy=multi-user.target
-EOF" "Create cpupower governor service"
-
-# Service file created above at lines 38-50
-enable_service cpupower-governor
-
 # ─── IRQ Balance (distribuir interrupciones) ──────────────────
 if [[ "$ENABLE_IRQBALANCE" == true ]]; then
     log_step "Enabling irqbalance"
