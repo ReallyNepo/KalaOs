@@ -37,6 +37,7 @@ EOF" "Set cpupower governor"
 # ─── IRQ Balance (distribuir interrupciones) ──────────────────
 if [[ "$ENABLE_IRQBALANCE" == true ]]; then
     log_step "Enabling irqbalance"
+    pacman_install irqbalance
     enable_service irqbalance
 fi
 
