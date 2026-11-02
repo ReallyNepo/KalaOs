@@ -93,8 +93,8 @@ log_step "Enabling fstrim timer"
 enable_service fstrim.timer
 
 # ─── tuned profile para gaming ────────────────────────────────
-run_cmd "mkdir -p /etc/tuned" "Tuned config dir"
-run_cmd "cat > /etc/tuned/kalaos-gaming.conf <<'EOF'
+run_cmd "mkdir -p /etc/tuned/kalaos-gaming" "Tuned profile dir"
+run_cmd "cat > /etc/tuned/kalaos-gaming/tuned.conf <<'EOF'
 [main]
 summary=KalaOS Gaming Profile
 description=Optimized for gaming workloads
