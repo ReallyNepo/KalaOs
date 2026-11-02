@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
-# Module: 09-login - Greetd + nwg-greeter (GTK) + tema KalaOS
+# Module: 09-login - Greetd + tuigreet-git (TUI, AUR) + tema KalaOS
 
-log_step "Configuring Greetd + nwg-greeter login"
+log_step "Configuring Greetd + tuigreet login"
 
-pacman_install greetd nwg-greeter
+pacman_install greetd
+aur_install tuigreet-git
 
 # ─── Greetd config ────────────────────────────────────────────
-log_step "Configuring greetd with nwg-greeter"
+log_step "Configuring greetd with tuigreet"
 
 run_cmd "mkdir -p /etc/greetd" "Greetd config dir"
 
@@ -15,11 +16,11 @@ cat > /etc/greetd/config.toml <<'GREETD_CONFIG_EOF'
 vt = 1
 
 [default_session]
-command = "nwg-greeter --cmd 'hyprland'"
+command = "tuigreet --time --remember --user-menu --cmd 'hyprland'"
 user = "greeter"
 
 [initial_session]
-command = "nwg-greeter --cmd 'hyprland'"
+command = "tuigreet --time --remember --user-menu --cmd 'hyprland'"
 user = "greeter"
 
 [greetd]
