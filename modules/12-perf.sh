@@ -86,7 +86,7 @@ vm.page-cluster = 0
 EOF" "Apply gaming sysctl"
 
 # Aplicar inmediatamente
-run_cmd "sysctl --system" "Apply sysctl"
+run_cmd "sysctl --system || true" "Apply sysctl (ignore VM-restricted keys)"
 
 # ─── fstrim timer (SSD maintenance) ───────────────────────────
 log_step "Enabling fstrim timer"
