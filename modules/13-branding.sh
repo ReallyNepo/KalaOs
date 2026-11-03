@@ -176,7 +176,7 @@ magick -size 300x20 xc:"#241230" -stroke "#7C3AED" -strokewidth 2 -draw "rectang
 magick -size 292x12 xc:"#7C3AED" /usr/share/plymouth/themes/kalaos/progress_bar.png 2>/dev/null || true
 
 # Set plymouth theme
-run_cmd "plymouth-set-default-theme -R kalaos" "Set KalaOS plymouth theme"
+run_cmd "plymouth-set-default-theme kalaos" "Set KalaOS plymouth theme"
 
 # ─── Fastfetch config con logo ASCII ───────────────────────────
 log_step "Configuring fastfetch with KalaOS ASCII logo"
