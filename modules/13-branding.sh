@@ -14,7 +14,7 @@ pacman_install "${BRANDING_PKGS[@]}"
 # ─── Usar logo proporcionado por el usuario ───────────────────────
 log_step "Setting up KalaOS logo from user file"
 
-LOGO_SRC="${KALAOS_REPO:-$HOME/kalaos}/assets/logo/kalaos-logo.png"
+LOGO_SRC="${SCRIPT_DIR:-$HOME/kalaos}/assets/logo/kalaos-logo.png"
 LOGO_DIR="/usr/share/icons/hicolor"
 
 # Verificar que existe el logo
@@ -33,10 +33,10 @@ done
 log_step "Generating ASCII logo for terminal"
 
 run_cmd "mkdir -p ${SCRIPT_DIR:-$HOME/kalaos}/assets/logo" "Assets logo dir"
-mkdir -p "${KALAOS_REPO:-$HOME/kalaos}/dotfiles/fastfetch"
-chafa --format=symbols --symbols=block --colors=256 --size=60x30 "$LOGO_SRC" > "${KALAOS_REPO:-$HOME/kalaos}/assets/logo/kalaos-ascii.txt" 2>/dev/null || {
+mkdir -p "${SCRIPT_DIR:-$HOME/kalaos}/dotfiles/fastfetch"
+chafa --format=symbols --symbols=block --colors=256 --size=60x30 "$LOGO_SRC" > "${SCRIPT_DIR:-$HOME/kalaos}/assets/logo/kalaos-ascii.txt" 2>/dev/null || {
     # Fallback si chafa falla
-    cat > "${KALAOS_REPO:-$HOME/kalaos}/assets/logo/kalaos-ascii.txt" <<'ASCII_EOF'
+    cat > "${SCRIPT_DIR:-$HOME/kalaos}/assets/logo/kalaos-ascii.txt" <<'ASCII_EOF'
 \e[31m
        /\
       /  \
@@ -181,11 +181,11 @@ run_cmd "plymouth-set-default-theme -R kalaos" "Set KalaOS plymouth theme"
 # ─── Fastfetch config con logo ASCII ───────────────────────────
 log_step "Configuring fastfetch with KalaOS ASCII logo"
 
-cat > "${KALAOS_REPO:-$HOME/kalaos}/dotfiles/fastfetch/config.jsonc" <<'FASTFETCH_EOF'
+cat > "${SCRIPT_DIR:-$HOME/kalaos}/dotfiles/fastfetch/config.jsonc" <<'FASTFETCH_EOF'
 {
     "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
     "logo": {
-        "source": "${KALAOS_REPO:-$HOME/kalaos}/assets/logo/kalaos-ascii.txt",
+        "source": "${SCRIPT_DIR:-$HOME/kalaos}/assets/logo/kalaos-ascii.txt",
         "type": "cat",
         "color": "auto"
     },
