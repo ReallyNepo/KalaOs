@@ -87,7 +87,8 @@ aur_install() {
 
 enable_service() {
     local svc="$1"
-    run_cmd "systemctl enable --now $svc" "Enabling service: $svc"
+    # Suppress systemd warning for units without [Install] section (non-fatal)
+    run_cmd "systemctl enable --now $svc 2>/dev/null || systemctl start $svc" "Enabling service: $svc"
 }
 
 disable_service() {
