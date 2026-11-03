@@ -15,7 +15,7 @@ run-directory=/run/lightdm
 [Seat:*]
 greeter-session=lightdm-gtk-greeter
 autologin-user-timeout=0
-user-session=hyprland
+user-session=hyprland-uwsm
 
 [VNCServer]
 enabled=false
@@ -61,24 +61,24 @@ if [[ -n "$TARGET_USER" ]]; then
     run_cmd "usermod -aG video,seat,input $TARGET_USER 2>/dev/null || true" "Add user to video/seat/input groups"
 fi
 
-# ─── Hyprland Wayland session (for LightDM) ──────────────────────
+# ─── Hyprland Wayland session (uwsm wrapper — proper logind integration) ──────────
 run_cmd "mkdir -p /usr/share/wayland-sessions" "Wayland sessions dir"
 run_cmd "cat > /usr/share/wayland-sessions/hyprland.desktop <<'EOF'
 [Desktop Entry]
 Name=Hyprland
 Comment=An intelligent dynamic tiling Wayland compositor
-Exec=env XDG_CURRENT_DESKTOP=Hyprland Hyprland
+Exec=uwsm start hyprland
 Type=Application
 DesktopNames=Hyprland
-EOF" "Create Hyprland Wayland session"
+EOF" "Create Hyprland Wayland session (uwsm)"
 
-# Also create X11 fallback
+# X11 fallback session
 run_cmd "mkdir -p /usr/share/xsessions" "X11 sessions dir"
 run_cmd "cat > /usr/share/xsessions/hyprland.desktop <<'EOF'
 [Desktop Entry]
-Name=Hyprland (X11 fallback)
+Name=Hyprland
 Comment=An intelligent dynamic tiling Wayland compositor
-Exec=env XDG_CURRENT_DESKTOP=Hyprland Hyprland
+Exec=uwsm start hyprland
 Type=Application
 EOF" "Create Hyprland X11 fallback session"
 
