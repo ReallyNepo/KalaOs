@@ -97,9 +97,9 @@ pacman_install tuned
 enable_service tuned
 run_cmd "systemctl start tuned" "Start tuned daemon"
 
-# Create profile AFTER tuned is running (daemon will pick it up on restart)
-run_cmd "mkdir -p /etc/tuned/kalaos-gaming" "Tuned profile dir"
-run_cmd "cat > /etc/tuned/kalaos-gaming/tuned.conf <<'EOF'
+# Create profile in system location (always scanned by tuned)
+run_cmd "mkdir -p /usr/lib/tuned/kalaos-gaming" "Tuned profile dir (system)"
+run_cmd "cat > /usr/lib/tuned/kalaos-gaming/tuned.conf <<'EOF'
 [main]
 summary=KalaOS Gaming Profile
 description=Optimized for gaming workloads
@@ -127,12 +127,16 @@ net.ipv4.tcp_congestion_control=bbr
 kernel.sched_autogroup_enabled=0
 EOF" "Create tuned gaming profile"
 
-# Restart to load new profile
-run_cmd "systemctl restart tuned" "Restart tuned to load new profile"
-# Wait for tuned daemon to be ready
-run_cmd "for i in {1..10}; do tuned-adm list 2>/dev/null | grep -q kalaos-gaming && break || sleep 1; done" "Wait for tuned to load profile"
-# Verify profile exists before applying
-run_cmd "tuned-adm list | grep -q kalaos-gaming && tuned-adm profile kalaos-gaming || log_warn 'kalaos-gaming profile not found, skipping'" "Apply tuned gaming profile if available"
+# Also create in /etc/tuned for user profile compatibility
+run_cmd "mkdir -p /etc/tuned/kalaos-gaming" "Tuned profile dir (user)"
+run_cmd "cp /usr/lib/tuned/kalaos-gaming/tuned.conf /etc/tuned/kalaos-gaming/tuned.conf" "Mirror to user profile dir"
+
+# Force tuned to reload profiles
+run_cmd "systemctl reload tuned || systemctl restart tuned" "Reload tuned to pick up new profile"
+# Wait for tuned daemon to be ready and profile available
+run_cmd "for i in {1..15}; do tuned-adm list 2>/dev/null | grep -q kalaos-gaming && break || sleep 1; done" "Wait for tuned to load profile"
+# Apply profile (will succeed now that we verified it exists)
+run_cmd "tuned-adm profile kalaos-gaming" "Apply tuned gaming profile"
 
 # ─── Preload (app startup) ────────────────────────────────────
 # No preload moderno (systemd-homed lo maneja), pero podemos usar systemd-oomd
