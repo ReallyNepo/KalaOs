@@ -10,7 +10,7 @@ ZRAM_SIZE=$(( $(grep MemTotal /proc/meminfo | awk '{print $2}') * ZRAM_SIZE_PERC
 
 run_cmd "cat > /etc/systemd/zram-generator.conf <<EOF
 [zram0]
-zram-size = ${ZRAM_SIZE}K
+zram-size = ${ZRAM_SIZE}
 compression-algorithm = ${ZRAM_COMPRESSION}
 swap-priority = 100
 fs-type = swap
