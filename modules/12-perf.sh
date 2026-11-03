@@ -92,52 +92,6 @@ run_cmd "sysctl --system || true" "Apply sysctl (ignore VM-restricted keys)"
 log_step "Enabling fstrim timer"
 enable_service fstrim.timer
 
-# ─── tuned profile para gaming ────────────────────────────────
-pacman_install tuned
-enable_service tuned
-run_cmd "systemctl start tuned" "Start tuned daemon"
-
-# Create profile in system location (always scanned by tuned)
-run_cmd "mkdir -p /usr/lib/tuned/kalaos-gaming" "Tuned profile dir (system)"
-run_cmd "cat > /usr/lib/tuned/kalaos-gaming/tuned.conf <<'EOF'
-[main]
-summary=KalaOS Gaming Profile
-description=Optimized for gaming workloads
-
-[cpu]
-governor=performance
-energy_perf_bias=performance
-min_perf_pct=100
-force_latency=1
-
-[disk]
-devices=!/dev/sd*,!/dev/nvme*
-type=ssd
-
-[net]
-auto=1
-
-[vm]
-transparent_hugepages=always
-
-[sysctl]
-vm.swappiness=10
-vm.vfs_cache_pressure=50
-net.ipv4.tcp_congestion_control=bbr
-kernel.sched_autogroup_enabled=0
-EOF" "Create tuned gaming profile"
-
-# Also create in /etc/tuned for user profile compatibility
-run_cmd "mkdir -p /etc/tuned/kalaos-gaming" "Tuned profile dir (user)"
-run_cmd "cp /usr/lib/tuned/kalaos-gaming/tuned.conf /etc/tuned/kalaos-gaming/tuned.conf" "Mirror to user profile dir"
-
-# Force tuned to reload profiles
-run_cmd "systemctl restart tuned" "Restart tuned to pick up new profile"
-# Wait for tuned daemon to be ready and profile available
-run_cmd "for i in {1..15}; do tuned-adm list 2>/dev/null | grep -q kalaos-gaming && break || sleep 1; done" "Wait for tuned to load profile"
-# Apply profile (will succeed now that we verified it exists)
-run_cmd "tuned-adm profile kalaos-gaming" "Apply tuned gaming profile"
-
 # ─── Preload (app startup) ────────────────────────────────────
 # No preload moderno (systemd-homed lo maneja), pero podemos usar systemd-oomd
 run_cmd "mkdir -p /etc/systemd/oomd.conf.d" "systemd-oomd config dir"
