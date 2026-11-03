@@ -132,7 +132,7 @@ run_cmd "mkdir -p /etc/tuned/kalaos-gaming" "Tuned profile dir (user)"
 run_cmd "cp /usr/lib/tuned/kalaos-gaming/tuned.conf /etc/tuned/kalaos-gaming/tuned.conf" "Mirror to user profile dir"
 
 # Force tuned to reload profiles
-run_cmd "systemctl reload tuned || systemctl restart tuned" "Reload tuned to pick up new profile"
+run_cmd "systemctl restart tuned" "Restart tuned to pick up new profile"
 # Wait for tuned daemon to be ready and profile available
 run_cmd "for i in {1..15}; do tuned-adm list 2>/dev/null | grep -q kalaos-gaming && break || sleep 1; done" "Wait for tuned to load profile"
 # Apply profile (will succeed now that we verified it exists)
