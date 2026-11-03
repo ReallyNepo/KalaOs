@@ -16,6 +16,9 @@ swap-priority = 100
 fs-type = swap
 EOF" "Configure ZRAM generator"
 
+# Ensure zram kernel module is loaded
+run_cmd "modprobe zram" "Load zram kernel module"
+
 enable_service systemd-zram-setup@zram0
 
 # ─── ZSWAP (fallback si no zram) ──────────────────────────────
