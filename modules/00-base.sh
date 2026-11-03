@@ -58,11 +58,11 @@ BASE_PKGS=(
     # Sistema archivos
     btrfs-progs dosfstools exfatprogs f2fs-tools ntfs-3g udftools
     # Virtualización
-    qemu-full libvirt virt-manager dnsmasq bridge-utils vde2 openbsd-netcat
+    qemu-full libvirt virt-manager dnsmasq vde2 openbsd-netcat
     # Fuentes esenciales
     noto-fonts noto-fonts-cjk noto-fonts-emoji ttf-liberation
     # Utilidades varias
-    htop btop fastfetch neofetch jq yq fzf ripgrep fd bat eza zoxide
+    htop btop fastfetch jq yq fzf ripgrep fd bat eza zoxide
     # Archivos dotfiles
     stow chezmoi
     # Seguridad
