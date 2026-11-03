@@ -16,10 +16,12 @@ swap-priority = 100
 fs-type = swap
 EOF" "Configure ZRAM generator"
 
-# Ensure zram kernel module is loaded
-run_cmd "modprobe zram" "Load zram kernel module"
+# Ensure zram kernel module loads at boot
+run_cmd "echo zram > /etc/modules-load.d/zram.conf" "Load zram module at boot"
+run_cmd "modprobe zram" "Load zram kernel module now"
 
-enable_service systemd-zram-setup@zram0
+# Enable ZRAM service (non-fatal — VM kernels may lack support)
+run_cmd "systemctl enable systemd-zram-setup@zram0 2>/dev/null || log_warn 'ZRAM service unavailable on this kernel'" "Enable ZRAM service"
 
 # ─── ZSWAP (fallback si no zram) ──────────────────────────────
 run_cmd "cat > /etc/sysctl.d/99-kalaos-zswap.conf <<'EOF'
