@@ -112,6 +112,15 @@ EOF" "Configure systemd-oomd"
 
 enable_service systemd-oomd
 
+# ─── Wayland seat config for Hyprland direct session ────────────
+run_cmd "mkdir -p /etc/systemd/logind.conf.d" "logind config dir"
+run_cmd "cat > /etc/systemd/logind.conf.d/kalaos-wayland.conf <<'EOF'
+[Login]
+HandleLidSwitch=ignore
+HandleLidSwitchExternalPower=ignore
+HandleLidSwitchDocked=ignore
+EOF" "Configure logind for Wayland"
+
 # ─── Module loading optimizations ─────────────────────────────
 run_cmd "cat > /etc/modprobe.d/kalaos-perf.conf <<'EOF'
 # Performance module options

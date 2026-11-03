@@ -115,6 +115,50 @@ if [[ "$STEAM_DECK_UI" == true ]]; then
     run_cmd "echo 'SteamDeck=1' > /etc/steam/steam_devices" "Enable Steam Deck UI"
 fi
 
+# ─── Create tuned profile for gaming ───────────────────────────
+log_step "Creating tuned profile for gaming"
+run_cmd "mkdir -p /usr/lib/tuned/kalaos-gaming" "Tuned profile dir"
+cat > /usr/lib/tuned/kalaos-gaming/tuned.conf <<'TUNED_EOF'
+[main]
+summary=KalaOS Gaming Profile
+description=Optimized for gaming performance on KalaOS
+
+[cpu]
+governor=performance
+energy_perf_bias=performance
+min_perf_pct=100
+
+[disk]
+type=disk
+devices=!/dev/zram*
+alpm=off
+
+[vm]
+transparent_hugepages=always
+swappiness=10
+dirty_ratio=10
+dirty_background_ratio=5
+
+[net]
+type=network
+wake_on_lan=off
+
+[video]
+type=video
+radeon_dpm_perf_level=high
+intel_pstate=no_hwp
+
+[sysctl]
+kernel.sched_autogroup_enabled=0
+kernel.sched_min_granularity_ns=1000000
+kernel.sched_wakeup_granularity_ns=1500000
+kernel.sched_migration_cost_ns=5000000
+TUNED_EOF
+
+# Enable and apply tuned profile
+enable_service tuned
+run_cmd "tuned-adm profile kalaos-gaming 2>/dev/null || true" "Apply gaming tuned profile"
+
 # ─── Proton environment ────────────────────────────────────────
 run_cmd "cat > /etc/profile.d/kalaos-gaming.sh <<'EOF'
 # KalaOS Gaming Environment

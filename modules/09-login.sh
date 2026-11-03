@@ -15,7 +15,7 @@ run-directory=/run/lightdm
 [Seat:*]
 greeter-session=lightdm-gtk-greeter
 autologin-user-timeout=0
-user-session=hyprland-uwsm
+user-session=hyprland
 
 [VNCServer]
 enabled=false
@@ -42,7 +42,7 @@ position = 50%,center 50%,center
 panel-position = bottom
 default-user-image = #avatar-default
 user-image = #avatar-default
-EOF
+GREETER_EOF
 
 # ─── Ensure background exists ────────────────────────────────────
 run_cmd "mkdir -p /usr/share/backgrounds" "Backgrounds dir"
@@ -61,16 +61,16 @@ if [[ -n "$TARGET_USER" ]]; then
     run_cmd "usermod -aG video,seat,input $TARGET_USER 2>/dev/null || true" "Add user to video/seat/input groups"
 fi
 
-# ─── Hyprland Wayland session (uwsm wrapper — proper logind integration) ──────────
+# ─── Hyprland Wayland session (direct — bypasses uwsm D-Bus issues) ──────────
 run_cmd "mkdir -p /usr/share/wayland-sessions" "Wayland sessions dir"
 run_cmd "cat > /usr/share/wayland-sessions/hyprland.desktop <<'EOF'
 [Desktop Entry]
 Name=Hyprland
 Comment=An intelligent dynamic tiling Wayland compositor
-Exec=uwsm start hyprland
+Exec=Hyprland
 Type=Application
 DesktopNames=Hyprland
-EOF" "Create Hyprland Wayland session (uwsm)"
+EOF" "Create Hyprland Wayland session"
 
 # X11 fallback session
 run_cmd "mkdir -p /usr/share/xsessions" "X11 sessions dir"
@@ -78,7 +78,7 @@ run_cmd "cat > /usr/share/xsessions/hyprland.desktop <<'EOF'
 [Desktop Entry]
 Name=Hyprland
 Comment=An intelligent dynamic tiling Wayland compositor
-Exec=uwsm start hyprland
+Exec=Hyprland
 Type=Application
 EOF" "Create Hyprland X11 fallback session"
 
@@ -104,10 +104,6 @@ PAM_EOF" "Configure LightDM PAM"
 # ─── Ensure XDG_RUNTIME_DIR for user ───────────────────────────────
 run_cmd "mkdir -p /run/user/$(id -u $TARGET_USER 2>/dev/null || echo 1000)" "XDG runtime dir"
 run_cmd "chown $TARGET_USER:$TARGET_USER /run/user/$(id -u $TARGET_USER 2>/dev/null || echo 1000) 2>/dev/null || true" "Fix runtime dir perms"
-
-# ─── Pre-flight: test uwsm + Hyprland actually works ───────────────
-log_step "Testing Hyprland startup (uwsm)..."
-run_cmd "sudo -u $TARGET_USER uwsm start -- hyprland --version 2>&1 | head -1" "Test uwsm + Hyprland"
 
 # ─── LightDM Wayland-specific config ──────────────────────────────
 run_cmd "cat >> /etc/lightdm/lightdm.conf <<'LIGHTDM_WL_EOF'

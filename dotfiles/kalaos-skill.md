@@ -19,7 +19,7 @@ metadata:
 - **Bar**: Waybar + Rofi/Wofi + SwayNC
 - **Terminal**: Ghostty (Fish + Starship + Atuin + Zoxide + Carapace)
 - **Shell**: Fish (default)
-- **Login**: Greetd + tuigreet (TUI)
+- **Login**: LightDM + GTK Greeter
 
 ## Gaming Stack
 - **Steam** + Proton-GE + Wine-GE + Lutris + Heroic
@@ -50,7 +50,7 @@ ${KALAOS_REPO:-$HOME/kalaos}/dotfiles/       # Configs versionados (stow)
 ## Logs y Diagnóstico Crítico
 ```bash
 # Sistema
-journalctl -u greetd -f                    # Login issues
+journalctl -u lightdm -f                   # Login issues
 journalctl -u NetworkManager -f            # Red
 journalctl -u bluetooth -f                 # Bluetooth
 journalctl -u gamemoded -f                 # Gaming
@@ -101,7 +101,11 @@ kala theme <name>        # Cambiar tema base
 | `~/.config/gtk-3.0/gtk.css` | theming | GTK3 theme |
 | `~/.config/gtk-4.0/gtk.css` | theming | GTK4 theme |
 | `~/.config/starship/palette.toml` | theming | Starship palette |
-| `/etc/tuigreet/theme-kalaos.toml` | login | Tuigreet theme |
+| `/usr/share/wayland-sessions/hyprland.desktop` | login | Hyprland Wayland session |
+| `/usr/share/xsessions/hyprland.desktop` | login | Hyprland X11 fallback |
+| `/etc/lightdm/lightdm.conf` | login | LightDM config |
+| `/etc/lightdm/lightdm-gtk-greeter.conf` | login | GTK Greeter config |
+| `/etc/pam.d/lightdm` | login | PAM config |
 
 ## Módulos de Instalación (Orden)
 0. `00-base.sh` - Repos, pacman, base packages, services
@@ -113,7 +117,7 @@ kala theme <name>        # Cambiar tema base
 6. `06-bar.sh` - Waybar, Rofi, Wofi, SwayNC
 7. `07-theming.sh` - Matugen, paleta morado/rojo, Aether
 8. `08-fonts.sh` - SF Pro, JetBrains Mono Nerd, KalaPixel
-9. `09-login.sh` - Greetd + tuigreet
+9. `09-login.sh` - LightDM + GTK Greeter
 10. `10-cli.sh` - CLI `kala` completa
 11. `11-debloat.sh` - Limpieza 3 niveles
 12. `12-perf.sh` - ZRAM, governor, irqbalance, sysctl

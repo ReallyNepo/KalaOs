@@ -47,7 +47,7 @@ Fuente pixel art personalizada para KALAOS logo y elementos UI.
 - 'L' = Triángulo Arch
 - 'O' = Bigotes
 - 0-9 = Iconos gaming (gamepad, steam, etc.)
-EOF
+FONT_README_EOF
 
 # ─── Fontconfig para priorizar fuentes KalaOS ─────────────────
 run_cmd "mkdir -p /etc/fonts/conf.d" "Fontconfig dir"
