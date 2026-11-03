@@ -196,6 +196,18 @@ main() {
 
     log_step "Installation complete!"
     log_ok "KalaOS is ready. Run 'kala doctor' to verify."
+
+    # ─── Reboot prompt ────────────────────────────────────────────
+    if [[ "$DRY_RUN" == false ]]; then
+        echo
+        read -p "Installation finished. Reboot now to start graphical interface? [Y/n] " -r
+        if [[ $REPLY =~ ^[Yy]$ ]] || [[ -z $REPLY ]]; then
+            log_info "Rebooting..."
+            systemctl reboot
+        else
+            log_info "Reboot skipped. Run 'sudo reboot' when ready."
+        fi
+    fi
 }
 
 main "$@"
