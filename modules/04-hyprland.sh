@@ -15,6 +15,7 @@ HYPRLAND_PKGS=(
     hyprshot
     hyprsunset
     hyprwayland-scanner
+    uwsm
     xdg-desktop-portal-hyprland
     xdg-desktop-portal-gtk
 )
