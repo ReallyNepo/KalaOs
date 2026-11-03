@@ -129,7 +129,10 @@ export AMD_DEBUG=useaco
 export MESA_SHADER_CACHE_MAX_SIZE=16G
 export __GL_SHADER_DISK_CACHE_SIZE=16777216000
 export __GL_SHADER_DISK_CACHE_PATH=/var/cache/nvidia
-EOF" "Gaming environment variables"
+# Default terminal
+export TERMINAL=ghostty
+export TERM=xterm-256color
+EOF" "Gaming environment variables + default terminal"
 
 # ─── CPU Governor para gaming ──────────────────────────────────
 run_cmd "cat > /etc/default/cpupower <<'EOF'

@@ -118,6 +118,10 @@ run_cmd "mkdir -p $DOTFILES_DIR/fish" "Fish dotfiles dir"
 cat > $DOTFILES_DIR/fish/config.fish <<'FISH_EOF'
 # KalaOS Fish Config - Autocomplete, correction, IDE-like experience
 
+# ─── Default terminal ───────────────────────────────────────────
+set -gx TERMINAL ghostty
+set -gx TERM xterm-256color
+
 # ─── Starship prompt ──────────────────────────────────────────
 starship init fish | source
 
