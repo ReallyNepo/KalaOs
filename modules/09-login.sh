@@ -105,6 +105,20 @@ PAM_EOF" "Configure LightDM PAM"
 run_cmd "mkdir -p /run/user/$(id -u $TARGET_USER 2>/dev/null || echo 1000)" "XDG runtime dir"
 run_cmd "chown $TARGET_USER:$TARGET_USER /run/user/$(id -u $TARGET_USER 2>/dev/null || echo 1000) 2>/dev/null || true" "Fix runtime dir perms"
 
+# ─── Pre-flight: test uwsm + Hyprland actually works ───────────────
+log_step "Testing Hyprland startup (uwsm)..."
+run_cmd "sudo -u $TARGET_USER uwsm start -- hyprland --version 2>&1 | head -1" "Test uwsm + Hyprland"
+
+# ─── LightDM Wayland-specific config ──────────────────────────────
+run_cmd "cat >> /etc/lightdm/lightdm.conf <<'LIGHTDM_WL_EOF'
+
+# Wayland session support
+[Seat:*]
+type=wayland
+logind-check-graphical=true
+exit-on-failure=true
+LIGHTDM_WL_EOF" "Add Wayland seat config"
+
 # ─── Enable LightDM ──────────────────────────────────────────────
 enable_service lightdm
 
