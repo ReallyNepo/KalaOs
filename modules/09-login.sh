@@ -51,6 +51,19 @@ if [[ ! -f /usr/share/backgrounds/kalaos-bg.jpg ]]; then
     run_cmd "cp ${SCRIPT_DIR:-$HOME/kalaos}/assets/logo/kalaos-logo.png /usr/share/backgrounds/kalaos-bg.jpg 2>/dev/null || true" "Fallback background"
 fi
 
+# ─── Hyprland Wayland session (for LightDM) ──────────────────────
+run_cmd "mkdir -p /usr/share/wayland-sessions" "Wayland sessions dir"
+run_cmd "cat > /usr/share/wayland-sessions/hyprland.desktop <<'EOF'
+[Desktop Entry]
+Name=Hyprland
+Comment=An intelligent dynamic tiling Wayland compositor
+Exec=Hyprland
+Type=Application
+EOF" "Create Hyprland Wayland session"
+
+# ─── Add fish to /etc/shells ───────────────────────────────────────
+run_cmd "grep -q '^/usr/bin/fish$' /etc/shells || echo '/usr/bin/fish' >> /etc/shells" "Add fish to shells"
+
 # ─── Enable LightDM ──────────────────────────────────────────────
 enable_service lightdm
 
