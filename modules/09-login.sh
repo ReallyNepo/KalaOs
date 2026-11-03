@@ -54,4 +54,7 @@ fi
 # ─── Enable LightDM ──────────────────────────────────────────────
 enable_service lightdm
 
+# Ensure graphical target is default
+run_cmd "systemctl set-default graphical.target" "Set graphical.target as default"
+
 log_ok "Login module completed (LightDM + GTK greeter)"
