@@ -131,7 +131,8 @@ EOF" "Create tuned gaming profile"
 run_cmd "systemctl restart tuned" "Restart tuned to load new profile"
 # Wait for tuned daemon to be ready
 run_cmd "for i in {1..10}; do tuned-adm list 2>/dev/null | grep -q kalaos-gaming && break || sleep 1; done" "Wait for tuned to load profile"
-run_cmd "tuned-adm profile kalaos-gaming" "Apply tuned gaming profile"
+# Verify profile exists before applying
+run_cmd "tuned-adm list | grep -q kalaos-gaming && tuned-adm profile kalaos-gaming || log_warn 'kalaos-gaming profile not found, skipping'" "Apply tuned gaming profile if available"
 
 # ─── Preload (app startup) ────────────────────────────────────
 # No preload moderno (systemd-homed lo maneja), pero podemos usar systemd-oomd
