@@ -14,9 +14,9 @@ A clean, gaming-optimized installation script for CachyOS with Hyprland and Quic
 
 ### On a Fresh CachyOS Installation (TTY only)
 
-```bash
+```
 # Clone the repository
-git clone https://github.com/YOUR_USERNAME/cachyos-gaming-setup.git
+git clone https://github.com/ReallyNepo/KalaOs
 cd cachyos-gaming-setup
 
 # Make the script executable
@@ -30,9 +30,9 @@ sudo ./setup-gaming-os.sh
 
 1. Download [CachyOS ISO](https://cachyos.org/)
 2. Create a VM with at least:
-   - 4GB RAM (8GB recommended)
-   - 40GB disk space
-   - 2+ CPU cores
+    - 4GB RAM (8GB recommended)
+    - 40GB disk space
+    - 2+ CPU cores
 3. Install CachyOS **without** a desktop environment (TTY only)
 4. Boot into TTY and login
 5. Install git: `sudo pacman -S git`
@@ -41,6 +41,7 @@ sudo ./setup-gaming-os.sh
 ## What Gets Installed
 
 ### Core Components
+
 - Hyprland (window manager)
 - Quickshell (status bar)
 - Kitty (terminal)
@@ -48,6 +49,7 @@ sudo ./setup-gaming-os.sh
 - Rofi (application launcher)
 
 ### Gaming Software
+
 - Steam
 - Lutris
 - Heroic Games Launcher
@@ -60,6 +62,7 @@ sudo ./setup-gaming-os.sh
 - ProtonUp-Qt
 
 ### System Optimizations
+
 - Custom sysctl settings for gaming
 - Real-time priority adjustments
 - CPU governor configurations
@@ -68,7 +71,7 @@ sudo ./setup-gaming-os.sh
 ## Keybindings (Omarchy-style)
 
 | Key Combination | Action |
-|----------------|--------|
+| --- | --- |
 | `SUPER + RETURN` | Open terminal (Kitty) |
 | `SUPER + D` | Open application launcher (Rofi) |
 | `SUPER + B` | Open Firefox |
@@ -96,6 +99,7 @@ After the script completes:
 ## Customization
 
 All configuration files are placed in `~/.config/`:
+
 - `hypr/hyprland.conf` - Hyprland settings
 - `quickshell/shell.qml` - Status bar
 - `kitty/kitty.conf` - Terminal settings
@@ -112,15 +116,19 @@ All configuration files are placed in `~/.config/`:
 ## Troubleshooting
 
 ### Script fails during package installation
+
 Ensure you have internet connectivity:
-```bash
+
+```
 ping -c 3 google.com
 ```
 
 ### Hyprland doesn't start
+
 Check if your GPU is supported and drivers are installed. For VMs, ensure 3D acceleration is enabled.
 
 ### Performance issues in VM
+
 Enable 3D acceleration in your VM settings and allocate more RAM/CPU resources.
 
 ## License
